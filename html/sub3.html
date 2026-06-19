@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 자세히 보기 | 인천 아카이브</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/sub.css">
+</head>
+<body>
+
+  <!-- 헤더 (모든 페이지 공통 · 상단 고정) -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="index.html" class="logo" title="인천 아카이브 홈으로">
+        <svg class="logo__symbol" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect width="48" height="48" rx="13" fill="#21a366"/>
+          <path d="M24 12c-4 3-8 3-11 1v17c3 2 7 2 11-1 4 3 8 3 11 1V13c-3 2-7 2-11-1Z" fill="#fff" opacity="0.95"/>
+          <path d="M13 31c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#0f3d2e" stroke-width="2" stroke-linecap="round"/>
+          <path d="M13 36c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#6fcf97" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="24" cy="20" r="2.4" fill="#21a366"/>
+        </svg>
+        <span class="logo__text">인천 <span>아카이브</span></span>
+      </a>
+      <nav>
+        <ul class="gnb">
+          <li><a href="#">문의사항</a></li>
+          <li><a href="#">게시판</a>
+            <ul class="submenu">
+              <li><a href="sub1.html">베스트 게시판</a></li>
+              <li><a href="#">전체 게시판</a></li>
+            </ul>
+          </li>
+          <li><a href="#">토론</a>
+            <ul class="submenu">
+              <li><a href="sub2.html">베스트 토론</a></li>
+              <li><a href="#">전체 토론</a></li>
+            </ul>
+          </li>
+          <li><a href="#">마이페이지</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <a href="#" class="btn btn--ghost">로그인</a>
+        <a href="#" class="btn btn--primary">회원가입</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- =========================================================
+         게시글 자세히 보기
+         텍스트 출처: 선수제공파일/B_Module/텍스트/detail.txt
+         프로필 출처: 선수제공파일/B_Module/프로필/profile.jpg
+         ========================================================= -->
+    <section class="detail">
+      <div class="container detail__wrap">
+
+        <!-- 게시글 영역 (드래그 선택 방지: .article 에 user-select:none) -->
+        <article class="article">
+          <!-- 작성자: 프로필 사진 + 아이디 + 등록일 -->
+          <div class="article__head">
+            <img class="article__avatar" src="../선수제공파일/B_Module/프로필/profile.jpg"
+                 alt="작성자 프로필 사진" title="incheon_flyer">
+            <div class="article__meta">
+              <div class="id">incheon_flyer</div>
+              <div class="date">2026-01-01</div>
+            </div>
+          </div>
+
+          <!-- 제목 -->
+          <h1 class="article__title">[속보] 인천대교 새해 첫 일출 실시간 현장 (드론 촬영)</h1>
+
+          <!-- 내용 -->
+          <div class="article__body">
+            <p>2026년 희망찬 새해가 밝았습니다!</p>
+            <p>오늘 새벽, 인천대교의 장엄한 일출을 담기 위해 영종도 인근에서 드론을 띄웠습니다. 영하의 추운 날씨였지만, 수평선 너머로 붉은 태양이 솟아오르는 순간의 전율은 잊을 수가 없네요.</p>
+            <p>세계적인 규모를 자랑하는 인천대교의 유려한 곡선과 그 위로 번지는 황금빛 햇살이 어우러져 역대급 장관을 연출했습니다. 현장에 계셨던 분들의 환호성까지 오디오에 담겨 정말 감동적이었습니다.</p>
+            <p>이번에 촬영한 영상 중 가장 잘 나온 스틸컷 3장을 먼저 공유합니다. 300만 인천 시민 여러분 모두 이 기운을 받아 2026년 한 해 계획하신 모든 일들이 시원하게 뻗은 인천대교처럼 탄탄대로로 풀리시길 기원합니다.</p>
+            <p>새해 복 많이 받으세요!</p>
+          </div>
+
+          <!-- 좋아요 수 + 좋아요 버튼 -->
+          <div class="article__like">
+            <button class="like-btn" type="button">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.2C.3 8.5 1.9 5 5.2 5c2 0 3.3 1.1 4 2.2C9.8 6.1 11.2 5 13.1 5c3.3 0 4.9 3.5 3.2 6.8C19.5 16.4 12 21 12 21z"/></svg>
+              좋아요 <strong>2,451</strong>
+            </button>
+          </div>
+        </article>
+
+        <!-- =========================================================
+             게시글 댓글 영역
+             - 프로필 사진 + 아이디 + 댓글 내용 + 등록일
+             - 등록일 기준 내림차순 정렬
+             - 댓글 입력 폼 + 등록 버튼
+             ========================================================= -->
+        <section class="comments">
+          <h2 class="comments__title">댓글 <b>2</b></h2>
+
+          <!-- 댓글 입력 폼 + 등록 버튼 -->
+          <div class="comment-form">
+            <input type="text" placeholder="따뜻한 댓글을 남겨주세요 :)" aria-label="댓글 입력">
+            <button type="button">등록</button>
+          </div>
+
+          <!-- 댓글 목록 (등록일 내림차순) -->
+          <div class="comment">
+            <img class="comment__avatar" src="../선수제공파일/B_Module/프로필/profile.jpg"
+                 alt="송도주민 프로필 사진" title="송도주민">
+            <div>
+              <div class="comment__head">
+                <span class="comment__id">송도주민</span>
+                <span class="comment__date">2026-01-01 09:24</span>
+              </div>
+              <p class="comment__text">오늘 집에서 창밖 보는데 진짜 예쁘더라고요. 영상도 기대할게요.</p>
+            </div>
+          </div>
+
+          <div class="comment">
+            <img class="comment__avatar" src="../선수제공파일/B_Module/프로필/profile.jpg"
+                 alt="바다사랑 프로필 사진" title="바다사랑">
+            <div>
+              <div class="comment__head">
+                <span class="comment__id">바다사랑</span>
+                <span class="comment__date">2026-01-01 08:10</span>
+              </div>
+              <p class="comment__text">인천대교 일출은 언제 봐도 자부심 느껴지는 풍경입니다. 최고예요!</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 목록으로 -->
+        <div style="text-align:center; margin-top:44px;">
+          <a href="sub1.html" class="btn btn--ghost">목록으로 돌아가기</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__info">
+          <a href="index.html" class="logo" title="인천 아카이브 홈으로">
+            <svg class="logo__symbol" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <rect width="48" height="48" rx="13" fill="#21a366"/>
+              <path d="M24 12c-4 3-8 3-11 1v17c3 2 7 2 11-1 4 3 8 3 11 1V13c-3 2-7 2-11-1Z" fill="#fff" opacity="0.95"/>
+              <path d="M13 31c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#0f3d2e" stroke-width="2" stroke-linecap="round"/>
+              <path d="M13 36c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#6fcf97" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="24" cy="20" r="2.4" fill="#21a366"/>
+            </svg>
+            <span class="logo__text">인천 <span>아카이브</span></span>
+          </a>
+          <p>
+            문의사항 | 1588-1234 (평일 09:00 ~ 18:00)<br>
+            관리자 전용 | 010-9876-5432 (긴급 시스템 장애 신고 전용)
+          </p>
+        </div>
+        <div class="sns">
+          <a href="#" title="인스타그램" aria-label="인스타그램"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 1.8.25 2.2.42.6.22 1 .48 1.4.9.4.4.7.8.9 1.4.17.5.36 1.1.42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.25 1.8-.42 2.2-.22.6-.48 1-.9 1.4-.4.4-.8.7-1.4.9-.5.17-1.1.36-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-1.8-.25-2.2-.42-.6-.22-1-.48-1.4-.9-.4-.4-.7-.8-.9-1.4-.17-.5-.36-1.1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.06-1.2.25-1.8.42-2.2.22-.6.48-1 .9-1.4.4-.4.8-.7 1.4-.9.5-.17 1.1-.36 2.2-.42C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.7.07-.9.04-1.4.2-1.7.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.12.3-.28.8-.32 1.7C3.46 8.5 3.46 8.9 3.46 12s0 3.5.07 4.7c.04.9.2 1.4.32 1.7.17.43.37.74.69 1.06.32.32.63.52 1.06.69.3.12.8.28 1.7.32 1.2.07 1.6.07 4.7.07s3.5 0 4.7-.07c.9-.04 1.4-.2 1.7-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.12-.3.28-.8.32-1.7.07-1.2.07-1.6.07-4.7s0-3.5-.07-4.7c-.04-.9-.2-1.4-.32-1.7-.17-.43-.37-.74-.69-1.06-.32-.32-.63-.52-1.06-.69-.3-.12-.8-.28-1.7-.32C15.5 4 15.1 4 12 4Zm0 3.06A4.94 4.94 0 1 0 12 17a4.94 4.94 0 0 0 0-9.88Zm0 8.14A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4Zm6.3-8.34a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0Z"/></svg></a>
+          <a href="#" title="페이스북" aria-label="페이스북"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg></a>
+          <a href="#" title="유튜브" aria-label="유튜브"><svg viewBox="0 0 24 24"><path d="M23 7.5a3 3 0 0 0-2.1-2.1C19 4.9 12 4.9 12 4.9s-7 0-8.9.5A3 3 0 0 0 1 7.5 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.5a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.5 12 31 31 0 0 0 23 7.5ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a>
+          <a href="#" title="블로그" aria-label="블로그"><svg viewBox="0 0 24 24"><path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm4.5 6.5a2.5 2.5 0 0 0 0 5h2a1.5 1.5 0 0 1 0 3h-2a2.5 2.5 0 0 1-2.3-1.5H4a4 4 0 0 0 4 4h2.5a3.5 3.5 0 0 0 0-7h-2a.5.5 0 0 1 0-1h4.5v-2H8.5Zm8 0H15v7h1.5a3.5 3.5 0 0 0 0-7Z"/></svg></a>
+        </div>
+      </div>
+      <p class="footer__bottom">© 2026 Incheon Archive. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

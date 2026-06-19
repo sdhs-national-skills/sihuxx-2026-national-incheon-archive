@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>인천 아카이브 | 300만 인천 시민의 소통 광장</title>
+  <!-- 공통 스타일 + 메인 페이지 전용 스타일 -->
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <!-- =========================================================
+       헤더 영역 (모든 페이지 공통 · 항상 상단 고정)
+       ========================================================= -->
+  <header class="header">
+    <div class="container header__inner">
+
+      <!-- 로고: 직접 제작한 심볼(SVG) + '인천 아카이브' 텍스트 / 클릭 시 메인 이동 -->
+      <a href="index.html" class="logo" title="인천 아카이브 홈으로">
+        <!-- 직접 제작한 심볼: 인천의 바다 물결 + 펼친 책(아카이브)을 형상화 -->
+        <svg class="logo__symbol" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect width="48" height="48" rx="13" fill="#21a366"/>
+          <path d="M24 12c-4 3-8 3-11 1v17c3 2 7 2 11-1 4 3 8 3 11 1V13c-3 2-7 2-11-1Z" fill="#fff" opacity="0.95"/>
+          <path d="M13 31c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#0f3d2e" stroke-width="2" stroke-linecap="round"/>
+          <path d="M13 36c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#6fcf97" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="24" cy="20" r="2.4" fill="#21a366"/>
+        </svg>
+        <span class="logo__text">인천 <span>아카이브</span></span>
+      </a>
+
+      <!-- 메뉴 내비게이션 (과제 도면 구조: 문의사항 / 게시판 / 토론 / 마이페이지) -->
+      <nav>
+        <ul class="gnb">
+          <li><a href="#">문의사항</a></li>
+
+          <li>
+            <a href="#">게시판</a>
+            <!-- 서브 메뉴: 평소 숨김, 메인 메뉴 오버 시 표시 -->
+            <ul class="submenu">
+              <li><a href="sub1.html">베스트 게시판</a></li>
+              <li><a href="#">전체 게시판</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="#">토론</a>
+            <ul class="submenu">
+              <li><a href="sub2.html">베스트 토론</a></li>
+              <li><a href="#">전체 토론</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#">마이페이지</a></li>
+        </ul>
+      </nav>
+
+      <!-- 로그인 / 회원가입 -->
+      <div class="header__actions">
+        <a href="#" class="btn btn--ghost">로그인</a>
+        <a href="#" class="btn btn--primary">회원가입</a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- 본문 시작 -->
+  <main class="page" style="padding-top:0;">
+
+    <!-- =========================================================
+         1. 비주얼 영역 (헤더 제외 최상단 · 3장 자동 1-2-3 순환)
+         이미지 출처: 선수제공파일/공통제공파일/image
+         텍스트 출처: 선수제공파일/B_Module/텍스트/visual.txt
+         ========================================================= -->
+    <section class="visual">
+      <!-- 슬라이드 1 -->
+      <div class="visual__slide">
+        <img src="../선수제공파일/공통제공파일/image/14.jpg"
+             alt="해질녘 인천 도시 전경" title="인천의 노을">
+        <div class="visual__text">
+          <span class="eyebrow">INCHEON ARCHIVE</span>
+          <h2>어제보다 더 가까운 우리,<br>인천의 모든 순간을 잇다.</h2>
+        </div>
+      </div>
+      <!-- 슬라이드 2 -->
+      <div class="visual__slide">
+        <img src="../선수제공파일/공통제공파일/image/34.jpg"
+             alt="송도 센트럴파크 수상택시" title="바다와 도시가 만나는 인천">
+        <div class="visual__text">
+          <span class="eyebrow">INCHEON ARCHIVE</span>
+          <h2>바다와 도시가 만나는 곳,<br>당신의 인천 이야기가 시작됩니다.</h2>
+        </div>
+      </div>
+      <!-- 슬라이드 3 -->
+      <div class="visual__slide">
+        <img src="../선수제공파일/공통제공파일/image/32.jpg"
+             alt="인천의 풍차가 있는 들판" title="로컬의 가치를 더하다">
+        <div class="visual__text">
+          <span class="eyebrow">INCHEON ARCHIVE</span>
+          <h2>로컬의 가치를 더하다.<br>300만 인천 시민의 온택트 광장.</h2>
+        </div>
+      </div>
+
+      <!-- 진행 표시 점(장식) -->
+      <div class="visual__dots">
+        <span></span><span></span><span></span>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         2. 소개 영역 (이미지 1장 이상 · 애니메이션 · <hr> 구분)
+         텍스트 출처: 선수제공파일/B_Module/텍스트/introduce.txt
+         ========================================================= -->
+    <section class="section">
+      <div class="container intro__grid">
+
+        <!-- 좌측: 이미지 + 떠다니는 배지 애니메이션 -->
+        <div class="intro__media">
+          <img src="../선수제공파일/공통제공파일/image/22.jpg"
+               alt="인천 자유공원 전경" title="인천 아카이브 소개">
+          <div class="intro__badge">
+            <span class="num">300만</span>
+            <span class="lbl">인천 시민이<br>함께하는 커뮤니티</span>
+          </div>
+        </div>
+
+        <!-- 우측: 메인 텍스트 / <hr> / 서브 텍스트 -->
+        <div class="intro__text">
+          <span class="eyebrow">About Incheon Archive</span>
+          <!-- 메인 텍스트 -->
+          <p class="intro__main">인천의 모든 순간이 연결되는 곳,<br>300만 인천 시민의 리얼 라이프 커뮤니티</p>
+
+          <!-- 메인 텍스트와 서브 텍스트를 hr 로 구분 -->
+          <hr class="intro__divider">
+
+          <!-- 서브 텍스트 -->
+          <div class="intro__sub">
+            <p>인천 커뮤니티는 300만 인천 시민이 일상의 소소한 행복부터 지역의 중요한 이슈까지 가감 없이 나누는 가장 가까운 디지털 광장입니다.</p>
+            <p>우리는 파편화된 정보들 사이에서 신뢰할 수 있는 로컬 콘텐츠를 선별하고, 이웃 간의 따뜻한 연결을 통해 더 나은 지역 문화를 만들어가고자 합니다.</p>
+            <p>단순한 게시판을 넘어 인천의 어제와 오늘, 그리고 내일을 기록하는 시민 모두의 열린 공간으로서 여러분과 함께 성장하겠습니다.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3. 공지사항 영역 (4개 이상 · 제목 클릭 시 상세 이동)
+         텍스트 출처: 선수제공파일/B_Module/텍스트/notice.txt
+         ========================================================= -->
+    <section class="section section--soft">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Notice</span>
+          <h2>공지사항</h2>
+          <p>인천 아카이브의 새로운 소식과 안내를 확인하세요.</p>
+        </div>
+
+        <ul class="notice__list">
+          <li class="notice__item">
+            <span class="notice__num">01</span>
+            <div class="notice__body">
+              <!-- 제목 클릭 시 게시글 자세히 보기 페이지로 이동 -->
+              <a href="sub3.html" class="notice__title">스팸 및 불법 광고 게시물 자동 필터링 알고리즘 도입 안내</a>
+            </div>
+            <span class="notice__tag">중요</span>
+            <span class="notice__date">2026-04-20</span>
+          </li>
+          <li class="notice__item">
+            <span class="notice__num">02</span>
+            <div class="notice__body">
+              <a href="sub3.html" class="notice__title">인천 커뮤니티 서포터즈 '인천즈' 1기 최종 선정 결과 발표</a>
+            </div>
+            <span class="notice__tag">이벤트</span>
+            <span class="notice__date">2026-04-05</span>
+          </li>
+          <li class="notice__item">
+            <span class="notice__num">03</span>
+            <div class="notice__body">
+              <a href="sub3.html" class="notice__title">시스템 정기 점검 안내 (3월 17일 새벽 02시 ~ 06시)</a>
+            </div>
+            <span class="notice__tag">점검</span>
+            <span class="notice__date">2026-03-10</span>
+          </li>
+          <li class="notice__item">
+            <span class="notice__num">04</span>
+            <div class="notice__body">
+              <a href="sub3.html" class="notice__title">지역 소상공인 상생 프로젝트: 무료 홍보 게시판 입점 신청 안내</a>
+            </div>
+            <span class="notice__tag">안내</span>
+            <span class="notice__date">2026-03-02</span>
+          </li>
+          <li class="notice__item">
+            <span class="notice__num">05</span>
+            <div class="notice__body">
+              <a href="sub3.html" class="notice__title">보안 강화를 위한 개인정보 처리방침 개정 및 비밀번호 변경 권고</a>
+            </div>
+            <span class="notice__tag">보안</span>
+            <span class="notice__date">2026-02-15</span>
+          </li>
+          <li class="notice__item">
+            <span class="notice__num">06</span>
+            <div class="notice__body">
+              <a href="sub3.html" class="notice__title">내 주변의 숨은 장소, '인천의 재발견' 게시판 활용법 안내</a>
+            </div>
+            <span class="notice__tag">안내</span>
+            <span class="notice__date">2026-02-01</span>
+          </li>
+          <li class="notice__item">
+            <span class="notice__num">07</span>
+            <div class="notice__body">
+              <a href="sub3.html" class="notice__title">클린 인천 캠페인: 허위 사실 유포 및 지역 비하 발언 제한 안내</a>
+            </div>
+            <span class="notice__tag">캠페인</span>
+            <span class="notice__date">2026-01-12</span>
+          </li>
+          <li class="notice__item">
+            <span class="notice__num">08</span>
+            <div class="notice__body">
+              <a href="sub3.html" class="notice__title">[필독] 인천 커뮤니티 정식 오픈 안내 및 이용 가이드</a>
+            </div>
+            <span class="notice__tag">필독</span>
+            <span class="notice__date">2026-01-05</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. 이용수칙 영역 (4개 이상 · 서로 다른 아이콘 · 오버 하이라이트)
+         텍스트 출처: 선수제공파일/B_Module/텍스트/rule.txt
+         ========================================================= -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Community Rule</span>
+          <h2>이용수칙</h2>
+          <p>건강한 소통을 위해 함께 지켜주세요.</p>
+        </div>
+
+        <div class="rule__grid">
+          <!-- 1 -->
+          <div class="rule__card">
+            <div class="rule__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11h-6"/>
+              </svg>
+            </div>
+            <span class="rule__num">RULE 01</span>
+            <p>모든 회원은 동등한 인격체로서 비칭, 욕설, 비하 발언을 금합니다.</p>
+          </div>
+          <!-- 2 -->
+          <div class="rule__card">
+            <div class="rule__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>
+              </svg>
+            </div>
+            <span class="rule__num">RULE 02</span>
+            <p>확인되지 않은 루머나 허위 사실 유포 시 게시글이 삭제될 수 있습니다.</p>
+          </div>
+          <!-- 3 -->
+          <div class="rule__card">
+            <div class="rule__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <span class="rule__num">RULE 03</span>
+            <p>타인의 연락처, 주소 등 개인 식별 정보를 무단 게시하는 행위를 제한합니다.</p>
+          </div>
+          <!-- 4 -->
+          <div class="rule__card">
+            <div class="rule__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/>
+              </svg>
+            </div>
+            <span class="rule__num">RULE 04</span>
+            <p>각 게시판 성격에 맞는 글 작성을 권장하며, 목적 외의 글은 이동될 수 있습니다.</p>
+          </div>
+          <!-- 5 -->
+          <div class="rule__card">
+            <div class="rule__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <span class="rule__num">RULE 05</span>
+            <p>동일하거나 유사한 내용의 반복 게시물은 스팸으로 간주하여 제재합니다.</p>
+          </div>
+          <!-- 6 -->
+          <div class="rule__card">
+            <div class="rule__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/>
+              </svg>
+            </div>
+            <span class="rule__num">RULE 06</span>
+            <p>외부 콘텐츠 인용 시 반드시 출처를 표기하며, 저작권 침해 요소가 없어야 합니다.</p>
+          </div>
+          <!-- 7 -->
+          <div class="rule__card">
+            <div class="rule__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>
+              </svg>
+            </div>
+            <span class="rule__num">RULE 07</span>
+            <p>승인되지 않은 영리 목적의 홍보글이나 링크 유도 행위는 제한됩니다.</p>
+          </div>
+          <!-- 8 -->
+          <div class="rule__card">
+            <div class="rule__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18M3 6l1.6 13.4a2 2 0 0 0 2 1.6h6.8M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </div>
+            <span class="rule__num">RULE 08</span>
+            <p>본인이 작성한 게시물과 댓글에 대해서는 작성자 본인에게 법적 책임이 있습니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         5. 자주묻는 질문 영역 (무한 슬라이드 · 오버 시 정지 + 하이라이트)
+         텍스트 출처: 선수제공파일/B_Module/텍스트/Inquiry.txt (전체 사용)
+         ========================================================= -->
+    <section class="section section--soft faq">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">FAQ</span>
+          <h2>자주묻는 질문</h2>
+          <p>마우스를 올리면 슬라이드가 멈춥니다.</p>
+        </div>
+      </div>
+
+      <!-- 무한 슬라이드: 같은 목록을 두 벌(원본 + 복제) 이어붙여 끊김 없이 순환 -->
+      <div class="faq__viewport">
+        <div class="faq__track">
+          <!-- ===== 1벌차(원본) ===== -->
+          <div class="faq__item"><span class="faq__q">Q1</span><p>'토론'과 '게시판'은 구체적으로 어떻게 다른가요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item"><span class="faq__q">Q2</span><p>게시글과 댓글의 수정 및 삭제는 자유로운가요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item"><span class="faq__q">Q3</span><p>토론(갤러리)에서 익명으로 활동할 수 있나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item"><span class="faq__q">Q4</span><p>게시판(블로그형)에 사진이나 영상을 여러 장 올릴 수 있나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item"><span class="faq__q">Q5</span><p>내가 쓴 글을 사람들이 얼마나 봤는지 확인할 수 있나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item"><span class="faq__q">Q6</span><p>부적절한 글이나 채팅을 발견하면 어떻게 하나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item"><span class="faq__q">Q7</span><p>토론방(갤러리)을 직접 개설할 수도 있나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item"><span class="faq__q">Q8</span><p>게시판에 올린 글을 다른 곳으로 퍼가도 되나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <!-- ===== 2벌차(복제 · 무한 루프용, 화면상 동일) ===== -->
+          <div class="faq__item" aria-hidden="true"><span class="faq__q">Q1</span><p>'토론'과 '게시판'은 구체적으로 어떻게 다른가요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item" aria-hidden="true"><span class="faq__q">Q2</span><p>게시글과 댓글의 수정 및 삭제는 자유로운가요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item" aria-hidden="true"><span class="faq__q">Q3</span><p>토론(갤러리)에서 익명으로 활동할 수 있나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item" aria-hidden="true"><span class="faq__q">Q4</span><p>게시판(블로그형)에 사진이나 영상을 여러 장 올릴 수 있나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item" aria-hidden="true"><span class="faq__q">Q5</span><p>내가 쓴 글을 사람들이 얼마나 봤는지 확인할 수 있나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item" aria-hidden="true"><span class="faq__q">Q6</span><p>부적절한 글이나 채팅을 발견하면 어떻게 하나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item" aria-hidden="true"><span class="faq__q">Q7</span><p>토론방(갤러리)을 직접 개설할 수도 있나요?</p><div class="faq__more">자세히 보기 →</div></div>
+          <div class="faq__item" aria-hidden="true"><span class="faq__q">Q8</span><p>게시판에 올린 글을 다른 곳으로 퍼가도 되나요?</p><div class="faq__more">자세히 보기 →</div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       푸터 영역 (모든 페이지 공통 · 최하단)
+       텍스트 출처: 선수제공파일/B_Module/텍스트/footer.txt
+       ========================================================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__info">
+          <!-- 푸터 로고: 클릭 시 메인 이동 -->
+          <a href="index.html" class="logo" title="인천 아카이브 홈으로">
+            <svg class="logo__symbol" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <rect width="48" height="48" rx="13" fill="#21a366"/>
+              <path d="M24 12c-4 3-8 3-11 1v17c3 2 7 2 11-1 4 3 8 3 11 1V13c-3 2-7 2-11-1Z" fill="#fff" opacity="0.95"/>
+              <path d="M13 31c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#0f3d2e" stroke-width="2" stroke-linecap="round"/>
+              <path d="M13 36c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#6fcf97" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="24" cy="20" r="2.4" fill="#21a366"/>
+            </svg>
+            <span class="logo__text">인천 <span>아카이브</span></span>
+          </a>
+          <!-- footer.txt 내용 -->
+          <p>
+            문의사항 | 1588-1234 (평일 09:00 ~ 18:00)<br>
+            관리자 전용 | 010-9876-5432 (긴급 시스템 장애 신고 전용)
+          </p>
+        </div>
+
+        <!-- SNS 아이콘 3개 이상 · 오버 시 하이라이트 -->
+        <div class="sns">
+          <a href="#" title="인스타그램" aria-label="인스타그램">
+            <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 1.8.25 2.2.42.6.22 1 .48 1.4.9.4.4.7.8.9 1.4.17.5.36 1.1.42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.25 1.8-.42 2.2-.22.6-.48 1-.9 1.4-.4.4-.8.7-1.4.9-.5.17-1.1.36-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-1.8-.25-2.2-.42-.6-.22-1-.48-1.4-.9-.4-.4-.7-.8-.9-1.4-.17-.5-.36-1.1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.06-1.2.25-1.8.42-2.2.22-.6.48-1 .9-1.4.4-.4.8-.7 1.4-.9.5-.17 1.1-.36 2.2-.42C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.7.07-.9.04-1.4.2-1.7.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.12.3-.28.8-.32 1.7C3.46 8.5 3.46 8.9 3.46 12s0 3.5.07 4.7c.04.9.2 1.4.32 1.7.17.43.37.74.69 1.06.32.32.63.52 1.06.69.3.12.8.28 1.7.32 1.2.07 1.6.07 4.7.07s3.5 0 4.7-.07c.9-.04 1.4-.2 1.7-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.12-.3.28-.8.32-1.7.07-1.2.07-1.6.07-4.7s0-3.5-.07-4.7c-.04-.9-.2-1.4-.32-1.7-.17-.43-.37-.74-.69-1.06-.32-.32-.63-.52-1.06-.69-.3-.12-.8-.28-1.7-.32C15.5 4 15.1 4 12 4Zm0 3.06A4.94 4.94 0 1 0 12 17a4.94 4.94 0 0 0 0-9.88Zm0 8.14A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4Zm6.3-8.34a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0Z"/></svg>
+          </a>
+          <a href="#" title="페이스북" aria-label="페이스북">
+            <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg>
+          </a>
+          <a href="#" title="유튜브" aria-label="유튜브">
+            <svg viewBox="0 0 24 24"><path d="M23 7.5a3 3 0 0 0-2.1-2.1C19 4.9 12 4.9 12 4.9s-7 0-8.9.5A3 3 0 0 0 1 7.5 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.5a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.5 12 31 31 0 0 0 23 7.5ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg>
+          </a>
+          <a href="#" title="블로그" aria-label="블로그">
+            <svg viewBox="0 0 24 24"><path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm4.5 6.5a2.5 2.5 0 0 0 0 5h2a1.5 1.5 0 0 1 0 3h-2a2.5 2.5 0 0 1-2.3-1.5H4a4 4 0 0 0 4 4h2.5a3.5 3.5 0 0 0 0-7h-2a.5.5 0 0 1 0-1h4.5v-2H8.5Zm8 0H15v7h1.5a3.5 3.5 0 0 0 0-7Zm0 5V11a1.5 1.5 0 0 1 0 3.5Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 카피라이트 (footer.txt) -->
+      <p class="footer__bottom">© 2026 Incheon Archive. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

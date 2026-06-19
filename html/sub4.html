@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>토론 자세히 보기 | 인천 아카이브</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/sub.css">
+</head>
+<body>
+
+  <!-- 헤더 (모든 페이지 공통 · 상단 고정) -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="index.html" class="logo" title="인천 아카이브 홈으로">
+        <svg class="logo__symbol" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect width="48" height="48" rx="13" fill="#21a366"/>
+          <path d="M24 12c-4 3-8 3-11 1v17c3 2 7 2 11-1 4 3 8 3 11 1V13c-3 2-7 2-11-1Z" fill="#fff" opacity="0.95"/>
+          <path d="M13 31c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#0f3d2e" stroke-width="2" stroke-linecap="round"/>
+          <path d="M13 36c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#6fcf97" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="24" cy="20" r="2.4" fill="#21a366"/>
+        </svg>
+        <span class="logo__text">인천 <span>아카이브</span></span>
+      </a>
+      <nav>
+        <ul class="gnb">
+          <li><a href="#">문의사항</a></li>
+          <li><a href="#">게시판</a>
+            <ul class="submenu">
+              <li><a href="sub1.html">베스트 게시판</a></li>
+              <li><a href="#">전체 게시판</a></li>
+            </ul>
+          </li>
+          <li><a href="#">토론</a>
+            <ul class="submenu">
+              <li><a href="sub2.html">베스트 토론</a></li>
+              <li><a href="#">전체 토론</a></li>
+            </ul>
+          </li>
+          <li><a href="#">마이페이지</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <a href="#" class="btn btn--ghost">로그인</a>
+        <a href="#" class="btn btn--primary">회원가입</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- =========================================================
+         토론 자세히 보기
+         (베스트 토론 목록의 제목 클릭 시 이동되는 페이지)
+         ========================================================= -->
+    <section class="detail">
+      <div class="container detail__wrap">
+
+        <!-- 토론 영역 (드래그 선택 방지) -->
+        <article class="article">
+          <div class="article__head">
+            <img class="article__avatar" src="../선수제공파일/B_Module/프로필/profile.jpg"
+                 alt="토론 개설자 프로필 사진" title="incheon_voice">
+            <div class="article__meta">
+              <div class="id">incheon_voice</div>
+              <div class="date">2026-01-02</div>
+            </div>
+          </div>
+
+          <h1 class="article__title">인천 원도심 재개발 vs 역사 보존, 여러분의 생각은?</h1>
+
+          <div class="article__body">
+            <p>최근 인천 원도심을 둘러싼 재개발 논의가 다시 뜨거워지고 있습니다. 노후화된 도심을 정비해 주거 환경과 지역 경제를 살리자는 의견과, 개항기부터 이어진 인천만의 역사·문화 자산을 지켜야 한다는 의견이 팽팽하게 맞서고 있는데요.</p>
+            <p>한쪽에서는 안전 문제와 정주 여건 개선을 위해 과감한 재개발이 필요하다고 말합니다. 다른 한쪽에서는 개항장 일대의 근대 건축물과 골목 문화가 한 번 사라지면 되돌릴 수 없는 도시의 정체성이라고 강조합니다.</p>
+            <p>여러분은 어떻게 생각하시나요? 개발과 보존, 두 가치를 함께 살릴 수 있는 현실적인 방안이 있다면 함께 이야기 나눠봐요.</p>
+          </div>
+
+          <div class="article__like">
+            <button class="like-btn" type="button">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.2C.3 8.5 1.9 5 5.2 5c2 0 3.3 1.1 4 2.2C9.8 6.1 11.2 5 13.1 5c3.3 0 4.9 3.5 3.2 6.8C19.5 16.4 12 21 12 21z"/></svg>
+              공감 <strong>318</strong>
+            </button>
+          </div>
+        </article>
+
+        <!-- 토론 의견 영역 (댓글 = 등록일 내림차순 + 입력폼/등록버튼) -->
+        <section class="comments">
+          <h2 class="comments__title">의견 <b>3</b></h2>
+
+          <div class="comment-form">
+            <input type="text" placeholder="토론에 대한 의견을 남겨주세요" aria-label="의견 입력">
+            <button type="button">등록</button>
+          </div>
+
+          <div class="comment">
+            <img class="comment__avatar" src="../선수제공파일/B_Module/프로필/profile.jpg" alt="원도심러버 프로필 사진" title="원도심러버">
+            <div>
+              <div class="comment__head">
+                <span class="comment__id">원도심러버</span>
+                <span class="comment__date">2026-01-03 14:02</span>
+              </div>
+              <p class="comment__text">개항장 골목은 인천만의 자산이라고 생각해요. 보존하면서도 상권을 살리는 도시재생 방식이 답인 것 같습니다.</p>
+            </div>
+          </div>
+
+          <div class="comment">
+            <img class="comment__avatar" src="../선수제공파일/B_Module/프로필/profile.jpg" alt="송도시민 프로필 사진" title="송도시민">
+            <div>
+              <div class="comment__head">
+                <span class="comment__id">송도시민</span>
+                <span class="comment__date">2026-01-02 19:48</span>
+              </div>
+              <p class="comment__text">안전 문제가 심각한 곳은 재개발이 불가피하다고 봅니다. 무조건 보존만이 답은 아니에요.</p>
+            </div>
+          </div>
+
+          <div class="comment">
+            <img class="comment__avatar" src="../선수제공파일/B_Module/프로필/profile.jpg" alt="균형잡기 프로필 사진" title="균형잡기">
+            <div>
+              <div class="comment__head">
+                <span class="comment__id">균형잡기</span>
+                <span class="comment__date">2026-01-02 11:15</span>
+              </div>
+              <p class="comment__text">핵심 근대 건축물은 보존하고 주변부는 정비하는 절충안이 가장 현실적이지 않을까요?</p>
+            </div>
+          </div>
+        </section>
+
+        <div style="text-align:center; margin-top:44px;">
+          <a href="sub2.html" class="btn btn--ghost">토론 목록으로 돌아가기</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__info">
+          <a href="index.html" class="logo" title="인천 아카이브 홈으로">
+            <svg class="logo__symbol" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <rect width="48" height="48" rx="13" fill="#21a366"/>
+              <path d="M24 12c-4 3-8 3-11 1v17c3 2 7 2 11-1 4 3 8 3 11 1V13c-3 2-7 2-11-1Z" fill="#fff" opacity="0.95"/>
+              <path d="M13 31c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#0f3d2e" stroke-width="2" stroke-linecap="round"/>
+              <path d="M13 36c3 2 7 2 11-1 4 3 8 3 11 1" stroke="#6fcf97" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="24" cy="20" r="2.4" fill="#21a366"/>
+            </svg>
+            <span class="logo__text">인천 <span>아카이브</span></span>
+          </a>
+          <p>
+            문의사항 | 1588-1234 (평일 09:00 ~ 18:00)<br>
+            관리자 전용 | 010-9876-5432 (긴급 시스템 장애 신고 전용)
+          </p>
+        </div>
+        <div class="sns">
+          <a href="#" title="인스타그램" aria-label="인스타그램"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 1.8.25 2.2.42.6.22 1 .48 1.4.9.4.4.7.8.9 1.4.17.5.36 1.1.42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.25 1.8-.42 2.2-.22.6-.48 1-.9 1.4-.4.4-.8.7-1.4.9-.5.17-1.1.36-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-1.8-.25-2.2-.42-.6-.22-1-.48-1.4-.9-.4-.4-.7-.8-.9-1.4-.17-.5-.36-1.1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.06-1.2.25-1.8.42-2.2.22-.6.48-1 .9-1.4.4-.4.8-.7 1.4-.9.5-.17 1.1-.36 2.2-.42C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.7.07-.9.04-1.4.2-1.7.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.12.3-.28.8-.32 1.7C3.46 8.5 3.46 8.9 3.46 12s0 3.5.07 4.7c.04.9.2 1.4.32 1.7.17.43.37.74.69 1.06.32.32.63.52 1.06.69.3.12.8.28 1.7.32 1.2.07 1.6.07 4.7.07s3.5 0 4.7-.07c.9-.04 1.4-.2 1.7-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.12-.3.28-.8.32-1.7.07-1.2.07-1.6.07-4.7s0-3.5-.07-4.7c-.04-.9-.2-1.4-.32-1.7-.17-.43-.37-.74-.69-1.06-.32-.32-.63-.52-1.06-.69-.3-.12-.8-.28-1.7-.32C15.5 4 15.1 4 12 4Zm0 3.06A4.94 4.94 0 1 0 12 17a4.94 4.94 0 0 0 0-9.88Zm0 8.14A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4Zm6.3-8.34a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0Z"/></svg></a>
+          <a href="#" title="페이스북" aria-label="페이스북"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg></a>
+          <a href="#" title="유튜브" aria-label="유튜브"><svg viewBox="0 0 24 24"><path d="M23 7.5a3 3 0 0 0-2.1-2.1C19 4.9 12 4.9 12 4.9s-7 0-8.9.5A3 3 0 0 0 1 7.5 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.5a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.5 12 31 31 0 0 0 23 7.5ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a>
+          <a href="#" title="블로그" aria-label="블로그"><svg viewBox="0 0 24 24"><path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm4.5 6.5a2.5 2.5 0 0 0 0 5h2a1.5 1.5 0 0 1 0 3h-2a2.5 2.5 0 0 1-2.3-1.5H4a4 4 0 0 0 4 4h2.5a3.5 3.5 0 0 0 0-7h-2a.5.5 0 0 1 0-1h4.5v-2H8.5Zm8 0H15v7h1.5a3.5 3.5 0 0 0 0-7Z"/></svg></a>
+        </div>
+      </div>
+      <p class="footer__bottom">© 2026 Incheon Archive. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

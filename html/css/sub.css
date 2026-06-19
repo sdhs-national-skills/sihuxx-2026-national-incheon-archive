@@ -1,0 +1,221 @@
+@charset "utf-8";
+/* =========================================================
+   인천 아카이브 - 서브 페이지 스타일 (sub.css)
+   sub1(베스트 게시판) · sub2(베스트 토론) · sub3/sub4(상세) 공통
+   ※ JavaScript 없이 HTML/CSS 만으로 정렬·페이징·드래그방지를 구현합니다.
+   ========================================================= */
+
+/* ---------- 공통 레이아웃 ---------- */
+.board { padding: 70px 0 96px; }
+
+/* 상단 툴바: 정렬 셀렉트 + 결과 수 */
+.board__toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px; flex-wrap: wrap;
+}
+.board__count { color: var(--gray-700); font-size: 15px; }
+.board__count b { color: var(--green-700); }
+
+/* =========================================================
+   정렬 셀렉트 박스 (JS 없이 라디오로 구현)
+   - 좋아요 내림차순(기본) / 오름차순
+   ========================================================= */
+.sortbox { position: relative; }
+.sortbox > input { position: absolute; opacity: 0; pointer-events: none; }  /* 라디오 숨김 */
+
+/* 셀렉트처럼 보이는 토글 버튼 */
+.sortbox__label {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 11px 18px; border: 1.5px solid var(--gray-200);
+  border-radius: 999px; background: #fff;
+  font-size: 14px; font-weight: 600; color: var(--gray-700);
+  cursor: pointer; transition: border-color var(--t-fast), color var(--t-fast);
+}
+.sortbox__label:hover { border-color: var(--green-300); }
+.sortbox__label svg { width: 16px; height: 16px; stroke: var(--green-700); }
+
+/* 현재 선택된 정렬 라벨만 강조해서 보이기 */
+#sort-desc:checked ~ .sortbox__group [for="sort-desc"],
+#sort-asc:checked  ~ .sortbox__group [for="sort-asc"] {
+  border-color: var(--green-500); color: var(--green-700); background: var(--green-100);
+}
+
+.sortbox__group { display: flex; gap: 8px; }
+
+/* =========================================================
+   게시글 리스트
+   ========================================================= */
+.board__head {
+  display: grid; grid-template-columns: 80px 1fr 150px 110px;
+  gap: 16px; padding: 0 22px 14px;
+  border-bottom: 2px solid var(--green-900);
+  font-size: 13px; font-weight: 700; color: var(--gray-400);
+  letter-spacing: .04em;
+}
+.board__list { display: flex; flex-direction: column; }
+
+.post {
+  display: grid; grid-template-columns: 80px 1fr 150px 110px;
+  gap: 16px; align-items: center;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--gray-200);
+  transition: background var(--t-fast);
+}
+.post:hover { background: var(--green-100); }
+.post__rank { font-weight: 800; color: var(--green-300); font-size: 17px; text-align: center; }
+.post__title {
+  font-size: 16px; font-weight: 600; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color var(--t-fast);
+}
+.post__title:hover { color: var(--green-700); }
+.post__date { color: var(--gray-400); font-size: 14px; }
+.post__like {
+  display: inline-flex; align-items: center; gap: 6px; justify-self: end;
+  font-weight: 700; color: var(--green-700); font-size: 15px;
+}
+.post__like svg { width: 16px; height: 16px; fill: var(--green-500); }
+
+/* ---- 좋아요 오름차순 선택 시: 시각적으로 순서 뒤집기 ---- */
+/* (목록을 역순으로 보여주고, 순위 번호는 그대로 두어 정렬이 작동함을 표현) */
+#sort-asc:checked ~ .board__list { flex-direction: column-reverse; }
+
+/* =========================================================
+   페이징 (JS 없이 라디오 + :checked 형제 선택자)
+   - 5페이지, 한 페이지 10개
+   - 각 .post 에 data-page(p1~p5) 대신 클래스로 페이지를 지정합니다.
+   ========================================================= */
+.pager-radio { position: absolute; opacity: 0; pointer-events: none; }
+
+/* 기본: 모든 글 숨김 → 선택된 페이지 글만 표시 */
+.board__list .post { display: none; }
+
+/* 페이지 라디오가 체크되면 해당 페이지 글만 보이게 (등장 애니메이션 포함) */
+#page1:checked ~ .board__list .post.p1,
+#page2:checked ~ .board__list .post.p2,
+#page3:checked ~ .board__list .post.p3,
+#page4:checked ~ .board__list .post.p4,
+#page5:checked ~ .board__list .post.p5 {
+  display: grid;
+  animation: postIn .5s ease both;
+}
+/* 페이징 시 순차 등장 애니메이션 */
+@keyframes postIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 페이지 번호 버튼 줄 */
+.pager {
+  display: flex; justify-content: center; gap: 8px; margin-top: 40px;
+}
+.pager label {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: grid; place-items: center;
+  border: 1.5px solid var(--gray-200); background: #fff;
+  font-weight: 700; color: var(--gray-700); cursor: pointer;
+  transition: all var(--t-fast);
+}
+.pager label:hover { border-color: var(--green-300); color: var(--green-700); }
+
+/* 현재 페이지 번호 하이라이트 */
+#page1:checked ~ .pager label[for="page1"],
+#page2:checked ~ .pager label[for="page2"],
+#page3:checked ~ .pager label[for="page3"],
+#page4:checked ~ .pager label[for="page4"],
+#page5:checked ~ .pager label[for="page5"] {
+  background: var(--green-500); border-color: var(--green-500); color: #fff;
+}
+
+/* 정렬 라디오를 리스트 앞에 두기 위한 래퍼 */
+.board__data { position: relative; }
+
+@media (max-width: 720px) {
+  .board__head { grid-template-columns: 50px 1fr 80px; }
+  .board__head span:nth-child(3) { display: none; }
+  .post { grid-template-columns: 50px 1fr 80px; }
+  .post__date { display: none; }
+}
+
+/* =========================================================
+   게시글 상세 (sub3) / 토론 상세 (sub4)
+   ========================================================= */
+.detail { padding: 56px 0 96px; }
+.detail__wrap { max-width: 860px; margin: 0 auto; }
+
+/* 게시글 영역: 드래그(선택) 방지 */
+.article {
+  background: #fff; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 40px;
+  /* 모든 요소 드래그 선택 불가 */
+  -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+}
+.article__head {
+  display: flex; align-items: center; gap: 14px;
+  padding-bottom: 22px; border-bottom: 1px solid var(--gray-200);
+}
+.article__avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  object-fit: cover; border: 2px solid var(--green-100);
+}
+.article__meta .id { font-weight: 700; color: var(--green-900); }
+.article__meta .date { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
+
+.article__title {
+  font-size: 26px; font-weight: 800; color: var(--green-900);
+  letter-spacing: -0.02em; margin: 26px 0 18px;
+}
+.article__body { color: var(--gray-700); font-size: 16px; line-height: 1.9; }
+.article__body p { margin-bottom: 16px; }
+
+/* 좋아요 버튼 */
+.article__like {
+  margin-top: 30px; text-align: center;
+}
+.like-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 30px; border-radius: 999px;
+  border: 1.5px solid var(--green-500); color: var(--green-700);
+  font-weight: 700; font-size: 16px;
+  transition: background var(--t-fast), color var(--t-fast), transform var(--t-fast);
+}
+.like-btn:hover { background: var(--green-500); color: #fff; transform: translateY(-2px); }
+.like-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+/* 댓글 영역 */
+.comments { margin-top: 48px; }
+.comments__title {
+  font-size: 19px; font-weight: 800; color: var(--green-900); margin-bottom: 20px;
+}
+.comments__title b { color: var(--green-500); }
+
+/* 댓글 입력 폼 */
+.comment-form {
+  display: flex; gap: 12px; margin-bottom: 28px;
+}
+.comment-form input {
+  flex: 1; padding: 14px 18px;
+  border: 1.5px solid var(--gray-200); border-radius: 12px;
+  font-size: 15px; outline: none; transition: border-color var(--t-fast);
+}
+.comment-form input:focus { border-color: var(--green-500); }
+.comment-form button {
+  flex: none; padding: 0 26px; border-radius: 12px;
+  background: var(--green-500); color: #fff; font-weight: 700;
+  transition: background var(--t-fast);
+}
+.comment-form button:hover { background: var(--green-700); }
+
+/* 댓글 목록 (등록일 내림차순) */
+.comment {
+  display: flex; gap: 14px;
+  padding: 20px 0; border-top: 1px solid var(--gray-200);
+}
+.comment__avatar {
+  width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex: none;
+  border: 2px solid var(--green-100);
+}
+.comment__head { display: flex; align-items: center; gap: 10px; }
+.comment__id { font-weight: 700; color: var(--green-900); font-size: 15px; }
+.comment__date { font-size: 12px; color: var(--gray-400); }
+.comment__text { margin-top: 6px; color: var(--gray-700); font-size: 15px; line-height: 1.6; }

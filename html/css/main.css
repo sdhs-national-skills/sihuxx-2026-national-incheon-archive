@@ -1,0 +1,273 @@
+@charset "utf-8";
+/* =========================================================
+   인천 아카이브 - 메인 페이지 스타일 (main.css)
+   index.html 에서만 사용하는 스타일입니다.
+   순서: 비주얼 → 소개 → 공지사항 → 이용수칙 → 자주묻는질문
+   ※ JavaScript 없이 HTML/CSS 만으로 동작합니다.
+   ========================================================= */
+
+/* =========================================================
+   1. 비주얼 영역 (헤더 제외 최상단 / 자동 슬라이드 1-2-3 순환)
+   - 라디오 버튼 + @keyframes 로 자바스크립트 없이 자동 전환합니다.
+   ========================================================= */
+.visual {
+  position: relative;
+  height: calc(100vh - var(--header-h));
+  min-height: 560px;
+  overflow: hidden;
+  background: var(--green-900);
+}
+
+/* 슬라이드 한 장 */
+.visual__slide {
+  position: absolute; inset: 0;
+  opacity: 0;                    /* 기본은 숨김 */
+  /* 9초 주기로 1→2→3 순환 (3장 × 3초) */
+  animation: visualFade 9s infinite;
+}
+.visual__slide:nth-child(1) { animation-delay: 0s; }
+.visual__slide:nth-child(2) { animation-delay: 3s; }
+.visual__slide:nth-child(3) { animation-delay: 6s; }
+
+/* 배경 이미지 + 어두운 오버레이 + 천천히 확대(또 다른 애니메이션) */
+.visual__slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  animation: visualZoom 9s infinite ease-out;   /* 전환 외 추가 애니메이션 */
+}
+.visual__slide::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(15,61,46,.25), rgba(15,61,46,.72));
+}
+
+/* 슬라이드 텍스트 */
+.visual__text {
+  position: absolute; left: 0; right: 0; bottom: 18%;
+  z-index: 2; color: #fff; text-align: center;
+  padding: 0 24px;
+  opacity: 0;
+  animation: visualText 9s infinite;
+}
+.visual__slide:nth-child(1) .visual__text { animation-delay: 0s; }
+.visual__slide:nth-child(2) .visual__text { animation-delay: 3s; }
+.visual__slide:nth-child(3) .visual__text { animation-delay: 6s; }
+.visual__text .eyebrow {
+  display: inline-block; margin-bottom: 16px;
+  padding: 7px 16px; border-radius: 999px;
+  background: rgba(255,255,255,.16);
+  font-size: 13px; font-weight: 700; letter-spacing: .1em;
+  backdrop-filter: blur(4px);
+}
+.visual__text h2 {
+  font-size: 40px; font-weight: 800; line-height: 1.35;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 24px rgba(0,0,0,.35);
+}
+
+/* 좌측 하단 진행 표시 (장식) */
+.visual__dots {
+  position: absolute; left: 50%; bottom: 8%;
+  transform: translateX(-50%);
+  z-index: 2; display: flex; gap: 10px;
+}
+.visual__dots span {
+  width: 36px; height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,.35);
+  overflow: hidden;
+}
+.visual__dots span::after {
+  content: ""; display: block; height: 100%; width: 100%;
+  background: #fff; transform: translateX(-100%);
+}
+.visual__dots span:nth-child(1)::after { animation: dotFill 9s infinite 0s; }
+.visual__dots span:nth-child(2)::after { animation: dotFill 9s infinite 3s; }
+.visual__dots span:nth-child(3)::after { animation: dotFill 9s infinite 6s; }
+
+/* 슬라이드 전환: 33% 구간(3초) 동안 보여주고 사라짐 */
+@keyframes visualFade {
+  0%    { opacity: 0; }
+  4%    { opacity: 1; }
+  29%   { opacity: 1; }
+  33%   { opacity: 0; }
+  100%  { opacity: 0; }
+}
+/* 보이는 동안 천천히 확대되는 추가 애니메이션 */
+@keyframes visualZoom {
+  0%   { transform: scale(1.08); }
+  33%  { transform: scale(1.16); }
+  100% { transform: scale(1.16); }
+}
+/* 텍스트는 살짝 떠오르며 등장 */
+@keyframes visualText {
+  0%   { opacity: 0; transform: translateY(24px); }
+  6%   { opacity: 1; transform: translateY(0); }
+  29%  { opacity: 1; transform: translateY(0); }
+  33%  { opacity: 0; transform: translateY(0); }
+  100% { opacity: 0; }
+}
+@keyframes dotFill {
+  0%   { transform: translateX(-100%); }
+  33%  { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+/* =========================================================
+   2. 소개 영역 (이미지 + 텍스트 / <hr> 로 메인·서브 구분)
+   ========================================================= */
+.intro__grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center;
+}
+.intro__media { position: relative; }
+.intro__media img {
+  width: 100%; border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+/* 이미지 위 작은 배지 (흥미를 끄는 애니메이션) */
+.intro__badge {
+  position: absolute; left: -18px; bottom: 28px;
+  background: #fff; border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  padding: 16px 20px;
+  display: flex; align-items: center; gap: 12px;
+  animation: floatY 3.2s ease-in-out infinite;   /* 둥실 떠다니는 애니메이션 */
+}
+.intro__badge .num { font-size: 26px; font-weight: 800; color: var(--green-500); }
+.intro__badge .lbl { font-size: 13px; color: var(--gray-700); line-height: 1.4; }
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+.intro__text .eyebrow {
+  color: var(--green-700); font-weight: 700; font-size: 13px;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+/* 메인 텍스트 */
+.intro__main {
+  margin-top: 14px;
+  font-size: 30px; font-weight: 800; line-height: 1.45;
+  color: var(--green-900); letter-spacing: -0.02em;
+}
+/* <hr> 로 메인 텍스트와 서브 텍스트 영역 구분 */
+.intro__divider {
+  border: none; height: 2px; width: 64px;
+  background: var(--green-300);
+  margin: 26px 0;
+}
+/* 서브 텍스트 */
+.intro__sub p { color: var(--gray-700); margin-bottom: 14px; }
+.intro__sub p:last-child { margin-bottom: 0; }
+
+/* =========================================================
+   3. 공지사항 영역 (4개 이상 / 제목 클릭 시 상세 이동)
+   ========================================================= */
+.notice__list {
+  border-top: 2px solid var(--green-900);
+}
+.notice__item {
+  display: flex; align-items: center; gap: 24px;
+  padding: 22px 8px;
+  border-bottom: 1px solid var(--gray-200);
+  transition: background var(--t-fast);
+}
+.notice__item:hover { background: var(--green-100); }
+.notice__num {
+  width: 30px; flex: none; text-align: center;
+  font-weight: 800; color: var(--green-300); font-size: 18px;
+}
+.notice__body { flex: 1; min-width: 0; }
+.notice__title {
+  display: inline-block;
+  font-size: 17px; font-weight: 600; color: var(--ink);
+  transition: color var(--t-fast);
+}
+.notice__title:hover { color: var(--green-700); }
+.notice__date { flex: none; color: var(--gray-400); font-size: 14px; }
+.notice__tag {
+  flex: none; font-size: 12px; font-weight: 700;
+  color: var(--green-700); background: var(--green-100);
+  padding: 4px 10px; border-radius: 999px;
+}
+@media (max-width: 720px) {
+  .notice__date, .notice__tag { display: none; }
+}
+
+/* =========================================================
+   4. 이용수칙 영역 (4개 이상 / 서로 다른 아이콘 / 오버 하이라이트)
+   ========================================================= */
+.rule__grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
+}
+.rule__card {
+  background: #fff; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 28px 24px;
+  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+}
+/* 아이템 오버 시 하이라이트 */
+.rule__card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--green-300);
+}
+.rule__icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: grid; place-items: center; margin-bottom: 18px;
+  background: var(--green-100);
+  transition: background var(--t);
+}
+.rule__icon svg { width: 26px; height: 26px; stroke: var(--green-700); }
+.rule__card:hover .rule__icon { background: var(--green-500); }
+.rule__card:hover .rule__icon svg { stroke: #fff; }
+.rule__num { font-size: 13px; font-weight: 700; color: var(--green-300); }
+.rule__card p { margin-top: 6px; font-size: 15px; color: var(--gray-700); line-height: 1.6; }
+@media (max-width: 980px) { .rule__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .rule__grid { grid-template-columns: 1fr; } }
+
+/* =========================================================
+   5. 자주묻는 질문 영역 (무한 슬라이드 / 오버 시 정지 + 하이라이트)
+   - 같은 목록을 두 번 이어붙여 끊김 없이 무한 루프합니다.
+   ========================================================= */
+.faq { overflow: hidden; }
+.faq__viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.faq__track {
+  display: flex; gap: 20px; width: max-content;
+  animation: faqScroll 32s linear infinite;   /* 자동 무한 슬라이드 */
+}
+/* 슬라이드 영역에 마우스 오버 시 멈춤 */
+.faq__viewport:hover .faq__track { animation-play-state: paused; }
+
+.faq__item {
+  width: 320px; flex: none;
+  background: #fff; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 26px 24px;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+}
+/* 아이템 오버 시 하이라이트 */
+.faq__item:hover {
+  border-color: var(--green-500);
+  box-shadow: var(--shadow);
+  transform: translateY(-4px);
+}
+.faq__q { font-size: 13px; font-weight: 800; color: var(--green-500); }
+.faq__item p { margin-top: 10px; font-size: 17px; font-weight: 600; color: var(--green-900); line-height: 1.5; }
+.faq__more { margin-top: 18px; font-size: 14px; color: var(--gray-400); }
+
+/* 목록을 2벌 이어붙였으므로 -50% 지점에서 처음과 같아져 끊김이 없습니다 */
+@keyframes faqScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* 접근성: 모션 최소화 설정 시 애니메이션 정지 */
+@media (prefers-reduced-motion: reduce) {
+  .visual__slide, .visual__slide img, .visual__text,
+  .visual__dots span::after, .intro__badge, .faq__track {
+    animation: none !important;
+  }
+  .visual__slide:first-child, .visual__slide:first-child .visual__text { opacity: 1; }
+}
