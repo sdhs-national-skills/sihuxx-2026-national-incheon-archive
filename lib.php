@@ -21,7 +21,7 @@ function ss() {
 }
 
 function token() {
-    $session = $_SESSION["ss"]; 
+    $session = $_SESSION["ss"] ?? null; 
     if(isset($session)) {
         $user = db::fetch("select login_token from users where idx = '$session->idx'");
         if($user->login_token != $session->login_token) {

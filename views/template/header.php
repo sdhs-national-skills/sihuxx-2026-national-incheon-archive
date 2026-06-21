@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>베스트 게시판 | 인천 아카이브</title>
+  <title>인천 아카이브</title>
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/sub.css">
 </head>
 
 <body>
-
   <?php
+  token();
   $user = ss();
   ?>
 
@@ -32,16 +32,16 @@
       <nav>
         <ul class="gnb">
           <li><a href="#">문의사항</a></li>
-          <li><a href="#">게시판</a>
+          <li><a href="/board">게시판</a>
             <ul class="submenu">
-              <li><a href="/sub1">베스트 게시판</a></li>
-              <li><a href="#">전체 게시판</a></li>
+              <li><a href="/bestBoard">베스트 게시판</a></li>
+              <li><a href="/board">전체 게시판</a></li>
             </ul>
           </li>
-          <li><a href="#">토론</a>
+          <li><a href="/debate">토론</a>
             <ul class="submenu">
-              <li><a href="/sub2">베스트 토론</a></li>
-              <li><a href="#">전체 토론</a></li>
+              <li><a href="/bestDebate">베스트 토론</a></li>
+              <li><a href="/debate">전체 토론</a></li>
             </ul>
           </li>
           <li><a href="#">마이페이지</a></li>

@@ -20,8 +20,9 @@
    정렬 셀렉트 박스 (JS 없이 라디오로 구현)
    - 좋아요 내림차순(기본) / 오름차순
    ========================================================= */
-.sortbox { position: relative; }
+.sortbox { position: relative; display: flex;gap: 20px;}
 .sortbox > input { position: absolute; opacity: 0; pointer-events: none; }  /* 라디오 숨김 */
+
 
 /* 셀렉트처럼 보이는 토글 버튼 */
 .sortbox__label {
@@ -78,7 +79,9 @@
 
 /* ---- 좋아요 오름차순 선택 시: 시각적으로 순서 뒤집기 ---- */
 /* (목록을 역순으로 보여주고, 순위 번호는 그대로 두어 정렬이 작동함을 표현) */
-#sort-asc:checked ~ .board__list { flex-direction: column-reverse; }
+#sort-asc:checked ~ .board__data .board__list {
+  flex-direction: column-reverse;
+}
 
 /* =========================================================
    페이징 (JS 없이 라디오 + :checked 형제 선택자)
@@ -87,18 +90,7 @@
    ========================================================= */
 .pager-radio { position: absolute; opacity: 0; pointer-events: none; }
 
-/* 기본: 모든 글 숨김 → 선택된 페이지 글만 표시 */
-.board__list .post { display: none; }
 
-/* 페이지 라디오가 체크되면 해당 페이지 글만 보이게 (등장 애니메이션 포함) */
-#page1:checked ~ .board__list .post.p1,
-#page2:checked ~ .board__list .post.p2,
-#page3:checked ~ .board__list .post.p3,
-#page4:checked ~ .board__list .post.p4,
-#page5:checked ~ .board__list .post.p5 {
-  display: grid;
-  animation: postIn .5s ease both;
-}
 /* 페이징 시 순차 등장 애니메이션 */
 @keyframes postIn {
   from { opacity: 0; transform: translateY(16px); }
@@ -109,7 +101,7 @@
 .pager {
   display: flex; justify-content: center; gap: 8px; margin-top: 40px;
 }
-.pager label {
+.pager > * {
   width: 44px; height: 44px; border-radius: 12px;
   display: grid; place-items: center;
   border: 1.5px solid var(--gray-200); background: #fff;
@@ -219,3 +211,19 @@
 .comment__id { font-weight: 700; color: var(--green-900); font-size: 15px; }
 .comment__date { font-size: 12px; color: var(--gray-400); }
 .comment__text { margin-top: 6px; color: var(--gray-700); font-size: 15px; line-height: 1.6; }
+
+.default-form {background-color: white;border-radius: 20px; margin-top: 20px;display: flex;flex-direction: column;gap: 20px;padding: 20px;box-shadow: 0 0 8px var(--gray-200);}
+.default-form input {padding: 10px;width: 100%;}
+.default-form label {font-size: 15px;white-space: nowrap;align-items: center; display: flex;gap: 20px;width: 300px;}
+.default-form button {padding: 10px 15px;background-color: var(--green-500);color: white;font-weight: bold;}
+.default-form .title {color: var(--green-700);}
+.default-form .form-header {display: flex;justify-content: space-between;align-items: center;}
+.default-form .form-header .btn {border: 1px solid var(--gray-400);padding: 5px 10px;cursor: pointer;}
+.popup {display: none;justify-content: center;align-items: center;height: 100vh;width: 100%;position: fixed;transform: translate(-50%, -50%);top: 50%;left: 50%;}
+
+.search-box {display: flex;gap: 10px;}
+.search-box input {width: 300px;padding: 10px;border: 1px solid var(--gray-400);border-radius: 10x;}
+.search-box button {padding: 10px 15px;border-radius: 10px;background-color: var(--green-500);color: #fff;font-weight: bold;}
+
+
+.post-add-btn {background-color: var(--green-500);color: white;font-weight: bold;padding: 10px 15px;border-radius: 10px;}
