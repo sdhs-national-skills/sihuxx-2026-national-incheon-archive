@@ -9,8 +9,8 @@ get("/board", function () {
 get("/bestBoard", function () {
     views('board/best-board');
 });
-get("/boardDetail/{idx}", function($idx) {
-    views('board/board-detail', ["idx"=>$idx]);
+get("/boardDetail/{idx}", function ($idx) {
+    views('board/board-detail', ["idx" => $idx]);
 });
 get("/debate", function () {
     views('debate/debate');
@@ -70,4 +70,23 @@ post("/addPost", function () {
         db::exec("insert into posts (title, detail, category) values ('$title', '$detail', '$category')");
         move("/board", "게시글 추가 성공");
     }
+});
+post("/like", function () {
+    extract($_POST);
+    $user = ss();
+    $like = db::fetch("select * from likes where post_idx = '$idx' and user_idx = '$user->idx'");
+    if($like) {
+        db::exec("delete from likes where idx = '$like->idx'");
+    } else {
+        db::exec("insert into likes (user_idx, post_idx) values ('$user->idx', '$idx')");
+    }
+    $count = db::fetch("select count(*) cnt from likes where post_idx = '$idx'")->cnt;
+    echo json_encode(["count" => $count]);
+    exit;
+});
+post("/comment", function() {
+    extract($_POST);
+    $user = ss();
+    db::exec("insert into comments (post_idx, user_idx, content) values ('$post_idx', '$user->idx', '$content')");
+    move("/boardDetail/$post_idx", "댓글 추가 성공");
 });

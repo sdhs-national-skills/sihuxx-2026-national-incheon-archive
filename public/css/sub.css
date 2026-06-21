@@ -101,13 +101,14 @@
 .pager {
   display: flex; justify-content: center; gap: 8px; margin-top: 40px;
 }
-.pager > * {
+.pager > a {
   width: 44px; height: 44px; border-radius: 12px;
   display: grid; place-items: center;
   border: 1.5px solid var(--gray-200); background: #fff;
   font-weight: 700; color: var(--gray-700); cursor: pointer;
   transition: all var(--t-fast);
 }
+.pager a.disabled {pointer-events: none; cursor: not-allowed !important; background-color: var(--gray-200); }
 .pager label:hover { border-color: var(--green-300); color: var(--green-700); }
 
 /* 현재 페이지 번호 하이라이트 */
@@ -172,6 +173,7 @@
   transition: background var(--t-fast), color var(--t-fast), transform var(--t-fast);
 }
 .like-btn:hover { background: var(--green-500); color: #fff; transform: translateY(-2px); }
+.like-btn.active { background: var(--green-500); color: #fff; transform: translateY(-2px); }
 .like-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
 /* 댓글 영역 */
@@ -222,8 +224,9 @@
 .popup {display: none;justify-content: center;align-items: center;height: 100vh;width: 100%;position: fixed;transform: translate(-50%, -50%);top: 50%;left: 50%;}
 
 .search-box {display: flex;gap: 10px;}
-.search-box input {width: 300px;padding: 10px;border: 1px solid var(--gray-400);border-radius: 10x;}
+.search-box input {width: 300px;padding: 10px;border: 1px solid var(--gray-200);border-radius: 10x;border-radius: 10px;}
 .search-box button {padding: 10px 15px;border-radius: 10px;background-color: var(--green-500);color: #fff;font-weight: bold;}
 
 
-.post-add-btn {background-color: var(--green-500);color: white;font-weight: bold;padding: 10px 15px;border-radius: 10px;}
+.post-add-btn {background-color: var(--green-700);color: white;font-weight: bold;padding: 10px 15px;border-radius: 10px;}
+.category-select {padding: 10px 15px;border-radius: 30px;border: 1px solid var(--gray-200);}
