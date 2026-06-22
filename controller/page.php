@@ -9,11 +9,14 @@ get("/board", function () {
 get("/bestBoard", function () {
     views('board/best-board');
 });
-get("/boardDetail/{idx}", function ($idx) {
+get("/board/{idx}", function ($idx) {
     views('board/board-detail', ["idx" => $idx]);
 });
 get("/debate", function () {
     views('debate/debate');
+});
+get("/debate/{idx}", function ($idx) {
+    views("debate/debate-detail", ["idx" => $idx]);
 });
 get("/bestDebate", function () {
     views('debate/best-debate');
@@ -132,4 +135,10 @@ post("/commentLike", function () {
 
     echo json_encode(["count" => $count, "liked" => $liked]);
     exit;
+});
+post("/addDebate", function () {
+    extract($_POST);
+    $user = ss();
+    db::exec("insert into debates(title, user_idx) values('$title', '$user->idx')");
+    move("/debate", "토론 추가 성공");
 });

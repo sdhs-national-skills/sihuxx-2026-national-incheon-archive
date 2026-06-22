@@ -81,7 +81,7 @@ $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left 
                     <?php foreach ($posts as $post) {
                         $likeCount = db::fetch("select count(*) cnt from likes where post_idx = '$post->idx'")->cnt;
                     ?>
-                        <div class="post"><span class="post__rank"><?= $post->idx ?></span><a href="/boardDetail/<?= $post->idx ?>" class="post__title"><?= $post->title ?></a><span class="post__date"><?= $post->date ?></span><span class="post__like"><svg viewBox="0 0 24 24" width="24" height="24">
+                        <div class="post"><span class="post__rank"><?= $post->idx ?></span><a href="/board/<?= $post->idx ?>" class="post__title"><?= $post->title ?></a><span class="post__date"><?= $post->date ?></span><span class="post__like"><svg viewBox="0 0 24 24" width="24" height="24">
                                     <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" />
                                 </svg><?= $likeCount ?></span>
                             <form action="/deletePost" method="POST" class="admin-box">
@@ -95,8 +95,8 @@ $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left 
                 <!-- 페이지 번호 버튼 (이전/다음 없음, 번호 클릭만) -->
                 <div class="pager">
                     <a href="?page=<?= $page - 1 ?>" class="prevBtn <?= $page <= 1 ? 'disabled' : '' ?>">이전</a>
-                    <?php for ($i = 1; $i <= $maxPage; $i++) { ?>
-                        <a href="?page=<?= $i ?>" class="<?= $i == $page ? "active" : "" ?>"><?= $i ?></a>
+                    <?php for ($i = 1; $i <= 5; $i++) { ?>
+                        <a href="?page=<?= $i ?>" class="<?= $i == $page ? "active" : "" ?> <?= $i > $maxPage ? "disabled" : "" ?>"><?= $i ?></a>
                     <?php } ?>
                     <a href="?page=<?= $page + 1 ?>" class="nextBtn <?= $page >= $maxPage ? 'disabled' : '' ?>">다음</a>
                 </div>
@@ -105,7 +105,7 @@ $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left 
         </div>
     </section>
     <div class="popup">
-        <form action="/addPost" method="post" enctype="multipart/form-data" class="defualt-form">
+        <form action="/addPost" method="post" enctype="multipart/form-data" class="default-form">
             <div class="form-header">
                 <h3>게시글 등록</h3>
                 <button type="button" class="close-btn"
