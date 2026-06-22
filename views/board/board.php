@@ -72,7 +72,8 @@ $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left 
                     <span style="text-align:center;">번호</span>
                     <span>제목</span>
                     <span>등록일</span>
-                    <span style="text-align:right;">좋아요</span>
+                    <span style="text-align:center;">좋아요</span>
+                    <?= $user->is_admin == 1 ? "<span>관리</span>" : "" ?>
                 </div>
 
                 <!-- 게시글 목록 (10개씩 p1~p5) -->
@@ -80,9 +81,14 @@ $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left 
                     <?php foreach ($posts as $post) {
                         $likeCount = db::fetch("select count(*) cnt from likes where post_idx = '$post->idx'")->cnt;
                     ?>
-                        <div class="post"><span class="post__rank"><?= $post->idx ?></span><a href="/boardDetail/<?= $post->idx ?>" class="post__title"><?= $post->title ?></a><span class="post__date"><?= $post->date ?></span><span class="post__like"><svg viewBox="0 0 24 24">
-                                    <path d="M12 21s-7.5-4.6-10-9.2C.3 8.5 1.9 5 5.2 5c2 0 3.3 1.1 4 2.2C9.8 6.1 11.2 5 13.1 5c3.3 0 4.9 3.5 3.2 6.8C19.5 16.4 12 21 12 21z" />
-                                </svg><?= $likeCount ?></span></div>
+                        <div class="post"><span class="post__rank"><?= $post->idx ?></span><a href="/boardDetail/<?= $post->idx ?>" class="post__title"><?= $post->title ?></a><span class="post__date"><?= $post->date ?></span><span class="post__like"><svg viewBox="0 0 24 24" width="24" height="24">
+                                    <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" />
+                                </svg><?= $likeCount ?></span>
+                            <form action="/deletePost" method="POST" class="admin-box">
+                                <input type="hidden" name="idx" value="<?= $post->idx ?>">
+                                <button>삭제</button>
+                            </form>
+                        </div>
                     <?php } ?>
                 </div>
 

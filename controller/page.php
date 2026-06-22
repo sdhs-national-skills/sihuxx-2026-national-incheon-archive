@@ -80,22 +80,56 @@ post("/addPost", function () {
         move("/board", "게시글 추가 성공");
     }
 });
+post('/deletePost', function () {
+    extract($_POST);
+    db::exec("delete from posts where idx = '$idx'");
+    db::exec("delete from comments where post_idx = '$idx'");
+    db::exec("delete from likes where post_idx = '$idx'");
+    move("/", "게시글이 추가되었습니다");
+});
 post("/like", function () {
     extract($_POST);
     $user = ss();
+    $liked = false;
     $like = db::fetch("select * from likes where post_idx = '$idx' and user_idx = '$user->idx'");
     if ($like) {
         db::exec("delete from likes where idx = '$like->idx'");
+        $liked = false;
     } else {
         db::exec("insert into likes (user_idx, post_idx) values ('$user->idx', '$idx')");
+        $liked = true;
     }
     $count = db::fetch("select count(*) cnt from likes where post_idx = '$idx'")->cnt;
-    echo json_encode(["count" => $count]);
+
+    echo json_encode(["count" => $count, "liked" => $liked]);
     exit;
 });
 post("/comment", function () {
     extract($_POST);
     $user = ss();
-    db::exec("insert into comments (post_idx, user_idx, content) values ('$post_idx', '$user->idx', '$content')");
-    move("/boardDetail/$post_idx", "댓글 추가 성공");
+    if ($user) {
+        db::exec("insert into comments (post_idx, user_idx, content) values ('$post_idx', '$user->idx', '$content')");
+        move("/boardDetail/$post_idx", "댓글 추가 성공");
+    } else {
+        move("/", "로그인한 회원만 이용 가능한 기능입니다");
+    }
+});
+post("/commentLike", function () {
+    extract($_POST);
+    $user = ss();
+    $post_idx = db::fetch("select post_idx from comments where idx = '$idx'")->post_idx;
+    $liked = false;
+    $like = db::fetch("select * from comments_likes where comment_idx = '$idx' and user_idx = '$user->idx'");
+
+    if ($like) {
+        db::exec("delete from comments_likes where comment_idx = '$idx'");
+        $liked = false;
+    } else {
+        db::exec("insert into comments_likes(comment_idx, user_idx, post_idx) values ('$idx', '$user->idx', '$post_idx')");
+        $liked = true;
+    }
+    $count = db::fetch("select count(*) as cnt from comments_likes where comment_idx = '$idx'")->cnt;
+
+    echo json_encode(["count" => $count, "liked" => $liked]);
+    exit;
 });

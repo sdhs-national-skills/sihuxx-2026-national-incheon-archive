@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/sub.css">
+  <link rel="stylesheet" href="/asset/fontawesome/css/min.css">
 </head>
 
 <body>

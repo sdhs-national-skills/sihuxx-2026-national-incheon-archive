@@ -47,7 +47,7 @@
    게시글 리스트
    ========================================================= */
 .board__head {
-  display: grid; grid-template-columns: 80px 1fr 150px 110px;
+  display: grid; grid-template-columns: 80px 1fr 150px 110px 90px;
   gap: 16px; padding: 0 22px 14px;
   border-bottom: 2px solid var(--green-900);
   font-size: 13px; font-weight: 700; color: var(--gray-400);
@@ -56,7 +56,7 @@
 .board__list { display: flex; flex-direction: column; }
 
 .post {
-  display: grid; grid-template-columns: 80px 1fr 150px 110px;
+  display: grid; grid-template-columns: 80px 1fr 150px 110px 90px;
   gap: 16px; align-items: center;
   padding: 20px 22px;
   border-bottom: 1px solid var(--gray-200);
@@ -72,6 +72,7 @@
 .post__title:hover { color: var(--green-700); }
 .post__date { color: var(--gray-400); font-size: 14px; }
 .post__like {
+  margin: 0 auto;
   display: inline-flex; align-items: center; gap: 6px; justify-self: end;
   font-weight: 700; color: var(--green-700); font-size: 15px;
 }
@@ -166,6 +167,7 @@
   margin-top: 30px; text-align: center;
 }
 .like-btn {
+  cursor: pointer;
   display: inline-flex; align-items: center; gap: 10px;
   padding: 14px 30px; border-radius: 999px;
   border: 1.5px solid var(--green-500); color: var(--green-700);
@@ -213,6 +215,7 @@
 .comment__id { font-weight: 700; color: var(--green-900); font-size: 15px; }
 .comment__date { font-size: 12px; color: var(--gray-400); }
 .comment__text { margin-top: 6px; color: var(--gray-700); font-size: 15px; line-height: 1.6; }
+.comment-content {display: flex;justify-content: space-between;align-items: center; width: 450%;}
 
 .popup { position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; justify-content:center; align-items:center; z-index:1000; }
 .default-form { width:420px; background:#fff; border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:16px; box-shadow:0 10px 30px rgba(0,0,0,.15); }
@@ -230,6 +233,10 @@
 .search-box input {width: 300px;padding: 10px;border: 1px solid var(--gray-200);border-radius: 10x;border-radius: 10px;}
 .search-box button {padding: 10px 15px;border-radius: 10px;background-color: var(--green-500);color: #fff;font-weight: bold;}
 
-
 .post-add-btn {background-color: var(--green-700);color: white;font-weight: bold;padding: 10px 15px;border-radius: 10px;}
 .category-select {padding: 10px 15px;border-radius: 30px;border: 1px solid var(--gray-200);}
+.post .admin-box button {padding: 5px 10px;background-color: #f85151;border-radius: 30px; color: white;font-weight: bold;}
+
+.article__body .photo {position: relative;}
+.article__body .photo .img-info {position: absolute;bottom: 10px;left: 10px;padding: 5px;font-size: 12px;background-color: #00000056;color: white;font-weight: bold;border-radius: 5px;backdrop-filter: blur(3px);}
+.comment-like-btn {align-items: center; font-size: 12px;padding: 10px 15px;}
