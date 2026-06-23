@@ -8,16 +8,16 @@ $limit = 10;
 $start = ($page - 1) * $limit;
 $total = db::fetch("select count(*) cnt from debates")->cnt;
 $maxPage = ceil($total / $limit);
-// $where = "where 1";
-// $order = "idx desc";
-// if ($keyword) {
-//     $where .= " and title like '%$keyword%'";
-// }
-// if ($sort == "date-asc") $order = "idx asc";
-// if ($sort == "opinions-desc") $order = "opinions_count desc";
-// if ($sort == "opinions-asc") $order = "opinions_count asc";
+$where = "where 1";
+$order = "idx desc";
+if ($keyword) {
+    $where .= " and title like '%$keyword%'";
+}
+if ($sort == "date-asc") $order = "idx asc";
+if ($sort == "opinions-desc") $order = "opinions_count desc";
+if ($sort == "opinions-asc") $order = "opinions_count asc";
 
-$debates = db::fetchAll('select * from debates');
+$debates = db::fetchAll("select d.*, count(o.idx) from debates d left join opinions o on d.idx = o.debate_idx $where group by d.idx order by $order limit $start, $limit");
 ?>
 
 <main class="page">

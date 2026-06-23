@@ -27,6 +27,9 @@ get("/register", function () {
 get("/login", function () {
     views('auth/login');
 });
+get("/ask", function() {
+    views("ask");
+});
 post("/signup", function () {
     extract($_POST);
     $file = $_FILES["file"];
@@ -139,15 +142,46 @@ post("/commentLike", function () {
 post("/addDebate", function () {
     extract($_POST);
     $user = ss();
-    if(db::fetch("select * from debates where title = '$title'")) {
+    if (db::fetch("select * from debates where title = '$title'")) {
+        back("이미 동일한 토론이 존재합니다");
+    } else {
         db::exec("insert into debates(title, user_idx) values('$title', '$user->idx')");
         move("/debate", "토론 추가 성공");
-    } else {
-        back("이미 동일한 토론이 존재합니다");
     }
 });
-post("/deleteDebate", function() {
+post("/deleteDebate", function () {
     extract($_POST);
     db::exec("delete from debates where idx = '$idx'");
     move("/debate", "토론 삭제 성공");
+});
+post("/agree", function () {
+    extract($_POST);
+    $user = ss();
+    if ($user) {
+        db::exec("insert into opinions(user_idx, debate_idx, type) values('$user->idx', '$idx', 1)");
+        echo json_encode(["completed" => true]);
+        exit;
+    } else {
+        back("로그인 후 이용 가능한 기능입니다");
+    }
+});
+post("/oppose", function () {
+    extract($_POST);
+    $user = ss();
+    if ($user) {
+        db::exec("insert into opinions(user_idx, debate_idx, type) values('$user->idx', '$idx', 0)");
+        echo json_encode(["completed" => true]);
+        exit;
+    } else {
+        back("로그인 후 이용 가능한 기능입니다");
+    }
+});
+post("/addOpinion", function () {
+    extract($_POST);
+    $user = ss();
+    db::exec("insert into debate_opinions(content, user_idx, debate_idx) values('$content', '$user->idx', '$debate_idx')");
+    move("/debate/$debate_idx", "의견이 작성되었습니다");
+});
+get("/api/opinions/{debateIdx}", function ($debateIdx) {
+    echo json_encode(db::fetchAll("select do.*, u.id, u.profile, o.type from debate_opinions do left join users u on u.idx = do.user_idx inner join opinions o on o.user_idx = u.idx and o.debate_idx = '$debateIdx' where do.debate_idx = '$debateIdx'"));
 });

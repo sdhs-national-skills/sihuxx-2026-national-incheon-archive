@@ -206,6 +206,7 @@
 .comment {
   display: flex; gap: 14px;
   padding: 20px 0; border-top: 1px solid var(--gray-200);
+  background-color: #fff;
 }
 .comment__avatar {
   width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex: none;
@@ -218,6 +219,8 @@
 .comment-content {display: flex;justify-content: space-between;align-items: center; width: 450%;}
 
 .popup { position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; justify-content:center; align-items:center; z-index:1000; }
+.popup-content {padding: 30px;background-color: white;border-radius: 20px;}
+.popup-content .title {font-size: 23px;padding: 20px;border-radius: 20px;border: 1px solid var(--gray-200);}
 .default-form { width:420px; background:#fff; border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:16px; box-shadow:0 10px 30px rgba(0,0,0,.15); }
 .default-form .form-header { display:flex; justify-content:space-between; align-items:center; }
 .default-form .form-header h3 { margin:0; color:var(--green-700); }
@@ -242,8 +245,14 @@
 .comment-like-btn {align-items: center; font-size: 12px;padding: 10px 15px;}
 .sort-select {padding: 10px 15px;border-radius: 30px;border: 1px solid var(--gray-200);}
 .opinions-box {margin-top: 20px;display: flex;gap: 10px;width: 100%;}
-.opinions-box .opinion {transition: .3s ; cursor: pointer; text-align: center;padding: 30px;border: 1px solid var(--gray-200);border-radius: 20px;font-size: 20px;font-weight: bold;width: 50%; }
+.opinions-box .opinion-vote {transition: .3s ; cursor: pointer; text-align: center;padding: 30px;border: 1px solid var(--gray-200);border-radius: 20px;font-size: 20px;font-weight: bold;width: 50%; }
 .opinions-box .agree {color: #0ba254;
 &:hover { background-color: #0ba254;color: white; }}
 .opinions-box .oppose {color: #f03f3f;
 &:hover { background-color: #f03f3f;color: white; }}
+
+.popup.hidden {display: none !important;}
+.opinions-list {position: relative;border-radius: 20px; display: flex;flex-direction: column;padding: 20px;gap: 20px; height: 500px;overflow-y: scroll;background-color: var(--green-100);}
+.opinions-list .opinion {padding: 15px;background-color: #fff; width: 450px !important; border-radius: 20px;}
+/* .opinions-list .my-opinion {background-color: var(--green-600);color: white;} */
+.vote-tag {padding: 5px 10px;border-radius: 10px;background-color: green;color: white;font-weight: bold;font-size: 12px;}
