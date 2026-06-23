@@ -19,7 +19,12 @@ $debate = db::fetch("select d.*, u.id user_id, u.profile from debates d inner jo
 
         <h1 class="article__title"><?= $debate->title ?></h1>
 
-        <div class="article__body"></div>
+        <div class="article__body">
+          <div class="opinions-box">
+            <a href="/agree" class="agree opinion">찬성</ㅋ>
+            <a href="/oppose" class="oppose opinion">반대</a>
+          </div>
+        </div>
 
         <!-- <div class="article__like">
           <button class="like-btn" type="button">

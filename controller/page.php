@@ -139,6 +139,15 @@ post("/commentLike", function () {
 post("/addDebate", function () {
     extract($_POST);
     $user = ss();
-    db::exec("insert into debates(title, user_idx) values('$title', '$user->idx')");
-    move("/debate", "토론 추가 성공");
+    if(db::fetch("select * from debates where title = '$title'")) {
+        db::exec("insert into debates(title, user_idx) values('$title', '$user->idx')");
+        move("/debate", "토론 추가 성공");
+    } else {
+        back("이미 동일한 토론이 존재합니다");
+    }
+});
+post("/deleteDebate", function() {
+    extract($_POST);
+    db::exec("delete from debates where idx = '$idx'");
+    move("/debate", "토론 삭제 성공");
 });
