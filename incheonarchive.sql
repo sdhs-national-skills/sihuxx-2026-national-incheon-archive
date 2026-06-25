@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- 생성 시간: 26-06-22 13:57
+-- 생성 시간: 26-06-25 12:53
 -- 서버 버전: 10.4.32-MariaDB
 -- PHP 버전: 8.2.12
 
@@ -24,6 +24,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- 테이블 구조 `blocks`
+--
+
+CREATE TABLE `blocks` (
+  `idx` int(11) NOT NULL,
+  `user_idx` int(11) NOT NULL,
+  `target_user_idx` int(11) NOT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- 테이블 구조 `comments`
 --
 
@@ -34,13 +47,6 @@ CREATE TABLE `comments` (
   `date` timestamp NOT NULL DEFAULT current_timestamp(),
   `content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- 테이블의 덤프 데이터 `comments`
---
-
-INSERT INTO `comments` (`idx`, `user_idx`, `post_idx`, `date`, `content`) VALUES
-(4, 2, 3, '2026-06-22 08:56:21', 'zz');
 
 -- --------------------------------------------------------
 
@@ -55,14 +61,6 @@ CREATE TABLE `comments_likes` (
   `post_idx` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- 테이블의 덤프 데이터 `comments_likes`
---
-
-INSERT INTO `comments_likes` (`idx`, `comment_idx`, `user_idx`, `post_idx`, `date`) VALUES
-(27, 0, 2, 0, '2026-06-22 09:28:52'),
-(30, 4, 2, 3, '2026-06-22 09:33:03');
 
 -- --------------------------------------------------------
 
@@ -83,7 +81,97 @@ CREATE TABLE `debates` (
 --
 
 INSERT INTO `debates` (`idx`, `title`, `date`, `result`, `user_idx`) VALUES
-(1, '엉덩이는 두개인가 하나인가', '2026-06-22 11:49:45', 0, 2);
+(1, '엉덩이는 두개인가 하나인가', '2026-06-22 11:49:45', 0, 2),
+(2, '꺅두기는 성이 꺅이고 이름이 두기이다', '2026-06-23 09:02:53', 0, 2);
+
+-- --------------------------------------------------------
+
+--
+-- 테이블 구조 `debate_opinions`
+--
+
+CREATE TABLE `debate_opinions` (
+  `idx` int(11) NOT NULL,
+  `user_idx` int(11) NOT NULL,
+  `debate_idx` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `debate_opinions`
+--
+
+INSERT INTO `debate_opinions` (`idx`, `user_idx`, `debate_idx`, `content`, `date`) VALUES
+(1, 2, 1, '당연히 두개죠...ㄷㄷ', '2026-06-23 10:51:48'),
+(3, 2, 1, '음...', '2026-06-23 11:20:50'),
+(10, 2, 1, 'ㅇㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ', '2026-06-23 11:29:28');
+
+-- --------------------------------------------------------
+
+--
+-- 테이블 구조 `follows`
+--
+
+CREATE TABLE `follows` (
+  `idx` int(11) NOT NULL,
+  `user_idx` int(11) NOT NULL,
+  `target_user_idx` int(11) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `follows`
+--
+
+INSERT INTO `follows` (`idx`, `user_idx`, `target_user_idx`, `date`) VALUES
+(3, 2, 1, '2026-06-25 16:49:58');
+
+-- --------------------------------------------------------
+
+--
+-- 테이블 구조 `inquires`
+--
+
+CREATE TABLE `inquires` (
+  `idx` int(11) NOT NULL,
+  `title` varchar(300) NOT NULL,
+  `content` text NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  `img` varchar(400) NOT NULL,
+  `public` int(11) NOT NULL,
+  `user_idx` int(11) NOT NULL,
+  `answer` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `inquires`
+--
+
+INSERT INTO `inquires` (`idx`, `title`, `content`, `date`, `img`, `public`, `user_idx`, `answer`) VALUES
+(1, '인천 아카이브 이름 구려요', 'ㅈㄱㄴ', '2026-06-24 18:03:06', '/asset/inquires/구치파치.webp', 1, 2, '꾸췌파추ㅔ'),
+(2, '비공개 게시글이 있으면', 'be 공개 게시글도 있나 ㅋㅋ', '2026-06-24 18:03:32', '', 0, 2, '너무 웃기네요ㅜㅜ');
+
+-- --------------------------------------------------------
+
+--
+-- 테이블 구조 `inquire_comments`
+--
+
+CREATE TABLE `inquire_comments` (
+  `idx` int(11) NOT NULL,
+  `inquire_idx` int(11) NOT NULL,
+  `user_idx` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `inquire_comments`
+--
+
+INSERT INTO `inquire_comments` (`idx`, `inquire_idx`, `user_idx`, `content`, `date`) VALUES
+(3, 1, 2, '우와 구치파치다!', '2026-06-24 19:33:59');
 
 -- --------------------------------------------------------
 
@@ -98,13 +186,27 @@ CREATE TABLE `likes` (
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- 테이블의 덤프 데이터 `likes`
+-- 테이블 구조 `opinions`
 --
 
-INSERT INTO `likes` (`idx`, `user_idx`, `post_idx`, `date`) VALUES
-(26, 2, 0, '2026-06-22 09:33:00'),
-(27, 2, 3, '2026-06-22 09:33:02');
+CREATE TABLE `opinions` (
+  `idx` int(11) NOT NULL,
+  `user_idx` int(11) NOT NULL,
+  `debate_idx` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `opinions`
+--
+
+INSERT INTO `opinions` (`idx`, `user_idx`, `debate_idx`, `type`, `date`) VALUES
+(1, 2, 1, 1, '2026-06-23 10:53:20'),
+(6, 2, 2, 1, '2026-06-23 10:29:19');
 
 -- --------------------------------------------------------
 
@@ -116,7 +218,7 @@ CREATE TABLE `posts` (
   `idx` int(11) NOT NULL,
   `title` varchar(300) NOT NULL,
   `category` varchar(200) NOT NULL,
-  `date` date NOT NULL DEFAULT current_timestamp(),
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
   `detail` text NOT NULL,
   `photo` varchar(400) NOT NULL,
   `user_idx` int(11) NOT NULL
@@ -127,8 +229,7 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`idx`, `title`, `category`, `date`, `detail`, `photo`, `user_idx`) VALUES
-(2, '게시글입니다', '자유', '2026-06-22', '배가 너무 고프다', '', 1),
-(3, '이미지 테스트', '자유', '2026-06-22', '이미지', '/asset/posts/꺅두기.png,/asset/posts/두기.jpg', 1);
+(9, 'ㅎㅇ용', '정보', '2026-06-25 17:09:41', 'ㅋㅋ', '', 2);
 
 -- --------------------------------------------------------
 
@@ -142,51 +243,104 @@ CREATE TABLE `users` (
   `pw` varchar(300) NOT NULL,
   `name` varchar(300) NOT NULL,
   `profile` varchar(400) NOT NULL,
-  `is_admin` int(11) NOT NULL,
-  `login_token` varchar(200) DEFAULT NULL
+  `type` varchar(11) NOT NULL DEFAULT 'general',
+  `login_token` varchar(200) DEFAULT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 테이블의 덤프 데이터 `users`
 --
 
-INSERT INTO `users` (`idx`, `id`, `pw`, `name`, `profile`, `is_admin`, `login_token`) VALUES
-(1, 'sihu', '1234', '시후', '/asset/profile/꺅두기.png', 0, NULL),
-(2, 'admin', '1234', '관리자', '/asset/profile/귀여운 두기.tmp', 1, '795b79b25bec1684595d5fa86a8f3f3c71ce234281c8de43d2eb585b44510eb5');
+INSERT INTO `users` (`idx`, `id`, `pw`, `name`, `profile`, `type`, `login_token`, `date`) VALUES
+(2, 'admin', '1234', '관리자', '/asset/profile/귀여운 두기.tmp', 'admin', '746a4ac977fc0ece045474a1320845339da8fb413886c753480c512ec64665cf', '2026-06-25 18:57:32'),
+(3, 'sihu', '1234', '시후', '/asset/profile/꺅두기.png', 'general', NULL, '2026-06-25 19:50:16');
 
 --
 -- 덤프된 테이블의 인덱스
 --
 
 --
+-- 테이블의 인덱스 `blocks`
+--
+ALTER TABLE `blocks`
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`);
+
+--
 -- 테이블의 인덱스 `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`idx`);
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`),
+  ADD KEY `post_idx` (`post_idx`);
 
 --
 -- 테이블의 인덱스 `comments_likes`
 --
 ALTER TABLE `comments_likes`
-  ADD PRIMARY KEY (`idx`);
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`),
+  ADD KEY `comment_idx` (`comment_idx`),
+  ADD KEY `post_idx` (`post_idx`);
 
 --
 -- 테이블의 인덱스 `debates`
 --
 ALTER TABLE `debates`
-  ADD PRIMARY KEY (`idx`);
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`);
+
+--
+-- 테이블의 인덱스 `debate_opinions`
+--
+ALTER TABLE `debate_opinions`
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`),
+  ADD KEY `debate_idx` (`debate_idx`);
+
+--
+-- 테이블의 인덱스 `follows`
+--
+ALTER TABLE `follows`
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`);
+
+--
+-- 테이블의 인덱스 `inquires`
+--
+ALTER TABLE `inquires`
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`);
+
+--
+-- 테이블의 인덱스 `inquire_comments`
+--
+ALTER TABLE `inquire_comments`
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`);
 
 --
 -- 테이블의 인덱스 `likes`
 --
 ALTER TABLE `likes`
-  ADD PRIMARY KEY (`idx`);
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `post_idx` (`post_idx`);
+
+--
+-- 테이블의 인덱스 `opinions`
+--
+ALTER TABLE `opinions`
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`),
+  ADD KEY `debate_idx` (`debate_idx`);
 
 --
 -- 테이블의 인덱스 `posts`
 --
 ALTER TABLE `posts`
-  ADD PRIMARY KEY (`idx`);
+  ADD PRIMARY KEY (`idx`),
+  ADD KEY `user_idx` (`user_idx`);
 
 --
 -- 테이블의 인덱스 `users`
@@ -199,10 +353,16 @@ ALTER TABLE `users`
 --
 
 --
+-- 테이블의 AUTO_INCREMENT `blocks`
+--
+ALTER TABLE `blocks`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- 테이블의 AUTO_INCREMENT `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- 테이블의 AUTO_INCREMENT `comments_likes`
@@ -214,7 +374,31 @@ ALTER TABLE `comments_likes`
 -- 테이블의 AUTO_INCREMENT `debates`
 --
 ALTER TABLE `debates`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- 테이블의 AUTO_INCREMENT `debate_opinions`
+--
+ALTER TABLE `debate_opinions`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- 테이블의 AUTO_INCREMENT `follows`
+--
+ALTER TABLE `follows`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- 테이블의 AUTO_INCREMENT `inquires`
+--
+ALTER TABLE `inquires`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- 테이블의 AUTO_INCREMENT `inquire_comments`
+--
+ALTER TABLE `inquire_comments`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 테이블의 AUTO_INCREMENT `likes`
@@ -223,16 +407,108 @@ ALTER TABLE `likes`
   MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
+-- 테이블의 AUTO_INCREMENT `opinions`
+--
+ALTER TABLE `opinions`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- 테이블의 AUTO_INCREMENT `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- 테이블의 AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- 덤프된 테이블의 제약사항
+--
+
+--
+-- 테이블의 제약사항 `blocks`
+--
+ALTER TABLE `blocks`
+  ADD CONSTRAINT `blocks_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comments_ibfk_3` FOREIGN KEY (`post_idx`) REFERENCES `posts` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `comments_likes`
+--
+ALTER TABLE `comments_likes`
+  ADD CONSTRAINT `comments_likes_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comments_likes_ibfk_2` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comments_likes_ibfk_3` FOREIGN KEY (`comment_idx`) REFERENCES `comments` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comments_likes_ibfk_4` FOREIGN KEY (`post_idx`) REFERENCES `posts` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `debates`
+--
+ALTER TABLE `debates`
+  ADD CONSTRAINT `debates_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `debates_ibfk_2` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `debates_ibfk_3` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `debates_ibfk_4` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `debate_opinions`
+--
+ALTER TABLE `debate_opinions`
+  ADD CONSTRAINT `debate_opinions_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `debate_opinions_ibfk_2` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `debate_opinions_ibfk_3` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `debate_opinions_ibfk_4` FOREIGN KEY (`debate_idx`) REFERENCES `debates` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `follows`
+--
+ALTER TABLE `follows`
+  ADD CONSTRAINT `follows_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `inquires`
+--
+ALTER TABLE `inquires`
+  ADD CONSTRAINT `inquires_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `inquires_ibfk_2` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `inquire_comments`
+--
+ALTER TABLE `inquire_comments`
+  ADD CONSTRAINT `inquire_comments_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `likes`
+--
+ALTER TABLE `likes`
+  ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`post_idx`) REFERENCES `posts` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `opinions`
+--
+ALTER TABLE `opinions`
+  ADD CONSTRAINT `opinions_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `opinions_ibfk_2` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `opinions_ibfk_3` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `opinions_ibfk_4` FOREIGN KEY (`debate_idx`) REFERENCES `debates` (`idx`) ON DELETE CASCADE;
+
+--
+-- 테이블의 제약사항 `posts`
+--
+ALTER TABLE `posts`
+  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
+  ADD CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
