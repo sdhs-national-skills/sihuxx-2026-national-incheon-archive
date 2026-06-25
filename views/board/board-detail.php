@@ -1,9 +1,12 @@
 <?php
 $user = ss();
-$post = db::fetch("select p.*, u.profile, u.id as user_id from posts p inner join users u on p.user_idx = u.idx where p.idx = '$idx'");
+$post = db::fetch("select p.*, u.profile, u.id as user_id, u.idx as user_idx from posts p inner join users u on p.user_idx = u.idx where p.idx = '$idx'");
 $likeCount = db::fetch("select count(*) cnt from likes where post_idx = '$idx'")->cnt;
-$comments = db::fetchAll("select c.*, u.id, u.profile from comments c inner join users u on c.user_idx = u.idx where c.post_idx = '$idx' and c.user_idx = '$user->idx' order by c.date desc");
+$comments = db::fetchAll("select c.*, u.id, u.profile, u.idx as user_idx from comments c inner join users u on c.user_idx = u.idx where c.post_idx = '$idx' and c.user_idx = '$user->idx' order by c.date desc");
 $photos = explode(",", $post->photo);
+if(db::fetch("select * from blocks where user_idx = '$post->user_idx' and target_user_idx = '$user->idx'")) {
+  back("해당 게시글에 참여할 권한이 없습니다");
+}
 ?>
 
 <main class="page">
@@ -15,9 +18,9 @@ $photos = explode(",", $post->photo);
         <!-- 작성자: 프로필 사진 + 아이디 + 등록일 -->
         <div class="article__head">
           <img class="article__avatar" src="<?= $post->profile ?>"
-            alt="작성자 프로필 사진" title="incheon_flyer">
+            alt="작성자 프로필 사진" title="incheon_flyer" onclick="location.href='/profile/<?= $post->user_idx ?>'">
           <div class="article__meta">
-            <div class="id"><?= $post->user_id ?></div>
+            <div class="id" onclick="location.href='/profile/<?= $post->user_idx ?>'"><?= $post->user_id ?></div>
             <div class="date"><?= $post->date ?></div>
           </div>
         </div>
@@ -72,10 +75,10 @@ $photos = explode(",", $post->photo);
         ?>
           <div class="comment">
             <img class="comment__avatar" src="<?= $comment->profile ?>"
-              alt="송도주민 프로필 사진" title="송도주민">
+              alt="송도주민 프로필 사진" title="송도주민" onclick="location.href='/profile/<?= $comment->user_idx ?>'">
             <div>
               <div class="comment__head">
-                <span class="comment__id"><?= $comment->id ?></span>
+                <span class="comment__id" onclick="location.href='/profile/<?= $comment->user_idx ?>'"><?= $comment->id ?></span>
                 <span class="comment__date"><?= $comment->date ?></span>
               </div>
               <div class="comment-content">

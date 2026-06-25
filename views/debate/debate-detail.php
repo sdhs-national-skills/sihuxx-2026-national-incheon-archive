@@ -2,7 +2,7 @@
 $user = ss();
 $debate = db::fetch("select d.*, u.id user_id, u.profile from debates d inner join users u on d.user_idx = u.idx where d.idx = '$idx'");
 $is_compelted = db::fetch("select * from opinions where user_idx = '$user->idx' and debate_idx = '$idx'");
-$opinions = db::fetchAll("select o.*, u.id, u.profile from debate_opinions o inner join users u on o.user_idx = u.idx where debate_idx = '$idx'");
+$opinions = db::fetchAll("select o.*, u.id, u.profile, u.idx as user_idx from debate_opinions o inner join users u on o.user_idx = u.idx where debate_idx = '$idx'");
 ?>
 
 <main class="page">
@@ -13,9 +13,9 @@ $opinions = db::fetchAll("select o.*, u.id, u.profile from debate_opinions o inn
       <article class="article">
         <div class="article__head">
           <img class="article__avatar" src="<?= $debate->profile ?>"
-            alt="토론 개설자 프로필 사진" title="incheon_voice">
+            alt="토론 개설자 프로필 사진" title="incheon_voice" onclick="location.href='/profile/<?= $debate->user_idx ?>'">
           <div class="article__meta">
-            <div class="id"><?= $debate->user_id ?></div>
+            <div class="id" onclick="location.href='/profile/<?= $debate->user_idx ?>'"><?= $debate->user_id ?></div>
             <div class="date"><?= $debate->date ?></div>
           </div>
         </div>
@@ -88,11 +88,11 @@ $opinions = db::fetchAll("select o.*, u.id, u.profile from debate_opinions o inn
 
       opinionList.innerHTML = data.map((item) => {
         return ` <div class="comment opinion ${item.user_idx == user_idx ? "my-opinion" : ""}">
-          <img class="comment__avatar" src="${item.profile}">
+          <img class="comment__avatar" src="${item.profile}" onclick="location.href='/profile/${item.user_idx}'">
           <div>
             <div class="comment__head">
               <span class="vote-tag agree-tag">${item.type ? "찬성" : '반대'}</span>
-              <span class="comment__id">${item.id}</span>
+              <span class="comment__id" onclick="location.href='/profile/${item.user_idx}'">${item.id}</span>
               <span class="comment__date">${item.date}</span>
             </div>
             <div class="comment-content">

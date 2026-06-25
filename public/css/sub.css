@@ -270,3 +270,284 @@
 .comment-form button:disabled {background-color: var(--gray-400) !important;pointer-events: none;}
 .answer-content h3 {font-size: 14px;background-color: var(--green-500);color: white;padding: 5px 10px;border-radius: 30px;font-weight: bold;width: fit-content;}
 .inquire-comment-list {display: flex;flex-direction: column;}
+
+/* 프로필 */
+@charset "utf-8";
+/* =========================================================
+   인천 아카이브 - 유저 정보 페이지 스타일 (userpage.css)
+   프로필 상단 · 활동 통계 · 활동 내역 · 토스트 알림
+   ========================================================= */
+
+/* =========================================================
+   1. 프로필 상단 영역
+   ========================================================= */
+.profile__card {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 56px 0 40px;
+}
+
+/* 프로필 이미지 */
+.profile__avatar-wrap {
+  position: relative; margin-bottom: 24px;
+}
+.profile__avatar {
+  width: 120px; height: 120px; border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--green-100);
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--t);
+}
+.profile__avatar:hover {
+  transform: scale(1.04);
+}
+
+/* 프로필 텍스트 */
+.profile__info { margin-bottom: 28px; }
+.profile__info .eyebrow {
+  display: inline-block; margin-bottom: 12px;
+  color: var(--green-700); font-weight: 700; font-size: 13px;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.profile__name {
+  font-size: 28px; font-weight: 800;
+  color: var(--green-900); letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.profile__id {
+  font-size: 15px; color: var(--gray-400); font-weight: 500;
+}
+
+/* 액션 버튼 그룹 */
+.profile__actions {
+  display: flex; gap: 12px;
+}
+
+/* 공통 버튼 */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 999px;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer; border: 1.5px solid transparent;
+  transition: background var(--t-fast), color var(--t-fast),
+              border-color var(--t-fast), transform var(--t-fast);
+}
+.btn svg { width: 18px; height: 18px; flex: none; }
+
+/* 팔로우 버튼 (기본 상태) */
+.btn--follow {
+  background: var(--green-500); color: #fff;
+  border-color: var(--green-500);
+}
+.btn--follow:hover {
+  background: var(--green-700); border-color: var(--green-700);
+  transform: translateY(-2px);
+}
+
+/* 팔로우 버튼 (팔로우 중 상태) — JS에서 data-following="true" 시 적용 */
+.btn--follow[data-following="true"] {
+  background: #fff; color: var(--green-700);
+  border-color: var(--green-300);
+}
+.btn--follow[data-following="true"]:hover {
+  background: var(--green-100); border-color: var(--green-500);
+  transform: translateY(-2px);
+}
+/* 팔로우 중일 때 아이콘을 체크로 바꾸기 위한 SVG 변경은 JS에서 처리 */
+
+/* 차단 버튼 (기본 상태) */
+.btn--block {
+  background: #fff; color: var(--gray-700);
+  border-color: var(--gray-200);
+}
+.btn--block:hover {
+  background: #fff5f5; color: #d44;
+  border-color: #f5c1c1; transform: translateY(-2px);
+}
+
+/* 차단 버튼 (차단 중 상태) — JS에서 data-blocked="true" 시 적용 */
+.btn--block[data-blocked="true"] {
+  background: #fef2f2; color: #b91c1c;
+  border-color: #f5c1c1;
+}
+.btn--block[data-blocked="true"]:hover {
+  background: #fff; color: var(--gray-700);
+  border-color: var(--gray-200); transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   2. 활동 통계 카드
+   ========================================================= */
+.stats__grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.stats__card {
+  background: #fff; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 28px 20px;
+  text-align: center;
+  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+}
+.stats__card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--green-300);
+}
+.stats__icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: grid; place-items: center;
+  background: var(--green-100); margin: 0 auto 16px;
+  transition: background var(--t);
+}
+.stats__icon svg {
+  width: 24px; height: 24px; stroke: var(--green-700);
+}
+.stats__card:hover .stats__icon {
+  background: var(--green-500);
+}
+.stats__card:hover .stats__icon svg {
+  stroke: #fff;
+}
+.stats__num {
+  display: block; font-size: 32px; font-weight: 800;
+  color: var(--green-500); margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+.stats__label {
+  font-size: 14px; font-weight: 600; color: var(--gray-700);
+}
+
+@media (max-width: 720px) {
+  .stats__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .stats__grid { grid-template-columns: 1fr; }
+}
+
+
+/* =========================================================
+   3. 활동 내역 (탭 + 목록)
+   ========================================================= */
+
+/* 탭 버튼 */
+.activity-tabs {
+  display: flex; gap: 8px; margin-bottom: 24px;
+}
+.activity-tab {
+  padding: 10px 22px; border-radius: 999px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid var(--gray-200); background: #fff;
+  color: var(--gray-700);
+  transition: all var(--t-fast);
+}
+.activity-tab:hover {
+  border-color: var(--green-300); color: var(--green-700);
+}
+/* 활성 탭 — JS에서 .active 클래스 토글 */
+.activity-tab.active {
+  background: var(--green-500); border-color: var(--green-500);
+  color: #fff;
+}
+
+/* 패널 숨김 — JS에서 .hidden 클래스 토글 */
+.activity-panel.hidden { display: none; }
+
+/* 활동 목록 */
+.activity__list {
+  border-top: 2px solid var(--green-900);
+}
+.activity__item {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 8px;
+  border-bottom: 1px solid var(--gray-200);
+  transition: background var(--t-fast);
+}
+.activity__item:hover { background: var(--green-100); }
+
+/* 태그 (게시글 / 토론) */
+.activity__tag {
+  flex: none; font-size: 12px; font-weight: 700;
+  color: var(--green-700); background: var(--green-100);
+  padding: 4px 12px; border-radius: 999px;
+  white-space: nowrap;
+}
+.activity__tag--debate {
+  color: #7c3aed; background: #ede9fe;
+}
+
+/* 제목 */
+.activity__title {
+  flex: 1; min-width: 0;
+  font-size: 16px; font-weight: 600; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color var(--t-fast);
+}
+.activity__title:hover { color: var(--green-700); }
+
+/* 날짜 */
+.activity__date {
+  flex: none; font-size: 14px; color: var(--gray-400);
+}
+
+@media (max-width: 720px) {
+  .activity__date { display: none; }
+}
+
+
+/* =========================================================
+   4. 토스트 알림
+   - 화면 우측 하단 고정
+   - 기본 숨김, JS에서 .toast--show 추가 시 3초간 표시
+   ========================================================= */
+.toast {
+  position: fixed; right: 24px; top: 24px;
+  z-index: 9999;
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 24px;
+  background: var(--green-900); color: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .25);
+  max-width: 400px;
+
+  /* 기본 숨김 상태 */
+  opacity: 0; transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+}
+/* JS에서 .toast--show 클래스 추가 시 표시 */
+.toast--show {
+  opacity: 1; transform: translateY(0);
+  pointer-events: auto;
+}
+
+.toast__icon {
+  flex: none; width: 36px; height: 36px;
+  border-radius: 10px; background: rgba(255, 255, 255, .15);
+  display: grid; place-items: center;
+}
+.toast__icon svg {
+  width: 20px; height: 20px; stroke: #fff;
+}
+.toast__msg {
+  font-size: 14px; font-weight: 600; line-height: 1.5;
+  color: #fff;
+}
+
+/* 토스트 등장 애니메이션 (선택 — JS에서 .toast--animate 추가 시) */
+/* @keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes toastSlideOut {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(60px); }
+}
+.toast--animate-in {
+  animation: toastSlideIn .35s ease forwards;
+  pointer-events: auto;
+}
+.toast--animate-out {
+  animation: toastSlideOut .35s ease forwards;
+  pointer-events: none;
+} */

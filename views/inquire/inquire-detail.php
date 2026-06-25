@@ -1,7 +1,7 @@
 <?php
 $user = ss();
 $inquire = db::fetch("select i.*, u.id, u.profile from inquires i inner join users u on i.user_idx = u.idx where i.idx = '$idx'");
-$comments = db::fetchAll("select i.*, u.id, u.profile, u.is_admin from inquire_comments i inner join users u on i.user_idx = u.idx where i.inquire_idx = '$idx' order by u.is_admin desc, i.date desc");
+$comments = db::fetchAll("select i.*, u.id, u.profile, u.idx user_idx, u.is_admin from inquire_comments i inner join users u on i.user_idx = u.idx where i.inquire_idx = '$idx' order by u.is_admin desc, i.date desc");
 ?>
 
 <main class="page">
@@ -13,9 +13,9 @@ $comments = db::fetchAll("select i.*, u.id, u.profile, u.is_admin from inquire_c
         <!-- 작성자: 프로필 사진 + 아이디 + 등록일 -->
         <div class="article__head">
           <img class="article__avatar" src="<?= $inquire->profile ?>"
-            alt="작성자 프로필 사진" title="incheon_flyer">
+            alt="작성자 프로필 사진" title="incheon_flyer" onclick="location.href='/profile/<?= $inquire->user_idx ?>'">
           <div class="article__meta">
-            <div class="id"><?= $inquire->id ?></div>
+            <div class="id" onclick="location.href='/profile/<?= $inquire->user_idx ?>'"><?= $inquire->id ?></div>
             <div class="date"><?= $inquire->date ?></div>
           </div>
         </div>
@@ -27,13 +27,7 @@ $comments = db::fetchAll("select i.*, u.id, u.profile, u.is_admin from inquire_c
         <div class="article__body">
           <img oncontextmenu="return false" alt="<?= $inquire->img ?>" src="<?= $inquire->img ?>">
           <?= $inquire->content ?>
-          <?php if ($user->is_admin == 1 && $inquire->answer == null) { ?>
-            <form action="/addAnswer" method="post" class="admin-answer">
-              <input type="hidden" name="idx" value="<?= $inquire->idx ?>">
-              <textarea name="answer" placeholder="답변을 남겨주세요"></textarea>
-              <button>답변 등록</button>
-            </form>
-          <?php } else { ?>
+          <?php if ($inquire->answer != null) { ?>
             <div class="answer-content">
               <h3>관리자의 답변</h3>
               <div class="content"><?= $inquire->answer ?></div>
@@ -54,10 +48,10 @@ $comments = db::fetchAll("select i.*, u.id, u.profile, u.is_admin from inquire_c
             ?>
             <div class="comment">
               <img class="comment__avatar" src="<?= $comment->profile ?>"
-                alt="송도주민 프로필 사진" title="송도주민">
+                alt="송도주민 프로필 사진" title="송도주민" onclick="location.href='/profile/<?= $comment->user_idx ?>'">
               <div>
                 <div class="comment__head">
-                  <span class="comment__id"><?= $comment->is_admin == 1 ? "<span class='admin-tag'>관리자</span>" : "" ?><?= $comment->id ?></span>
+                  <span class="comment__id" onclick="location.href='/profile/<?= $comment->user_idx ?>'"><?= $comment->is_admin == 1 ? "<span class='admin-tag'>관리자</span>" : "" ?><?= $comment->id ?></span>
                   <span class="comment__date"><?= $comment->date ?></span>
                 </div>
                 <div class="comment-content">

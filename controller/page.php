@@ -30,8 +30,11 @@ get("/login", function () {
 get("/inquire", function () {
     views("inquire/inquire");
 });
-get("/inquire/{idx}", function($idx) {
+get("/inquire/{idx}", function ($idx) {
     views("inquire/inquire-detail", ["idx" => $idx]);
+});
+get("/profile/{idx}", function ($idx) {
+    views("profile", ["idx" => $idx]);
 });
 post("/signup", function () {
     extract($_POST);
@@ -85,7 +88,7 @@ post("/addPost", function () {
         db::exec("insert into posts (title, detail, category, photo, user_idx) values ('$title', '$detail', '$category', '$image', '$user->idx')");
         move("/board", "게시글 추가 성공");
     } else {
-        db::exec("insert into posts (title, detail, user_idx) values ('$title', '$detail', '$category', '$user->idx')");
+        db::exec("insert into posts (title, detail, category, user_idx) values ('$title', '$detail', '$category', '$user->idx')");
         move("/board", "게시글 추가 성공");
     }
 });
@@ -201,18 +204,65 @@ post("/addInquire", function () {
         move("/inquire", "문의사항 등록 성공");
     }
 });
-post("/addAnswer", function() {
+post("/addAnswer", function () {
     extract($_POST);
     db::exec("update inquires set answer = '$answer' where idx = '$idx'");
     move("/inquire/$idx", "답변 추가 성공");
 });
-post("/addInquireComment", function() {
+post("/addInquireComment", function () {
     extract($_POST);
     $user = ss();
-    if($user) {
+    if ($user) {
         db::exec("insert into inquire_comments (content, user_idx, inquire_idx) values ('$content', '$user->idx', '$inquire_idx')");
         move("/inquire/$inquire_idx", "댓글 추가 성공");
     } else {
         move("/", "로그인 후 이용 가능한 기능입니다");
     }
+});
+post("/follow", function () {
+    extract($_POST);
+    $user = ss();
+    if ($user) {
+        db::exec("insert into follows (user_idx, target_user_idx) values ('$user->idx', '$target_user_idx')");
+        move("/profile/$target_user_idx", "팔로우 성공");
+    } else {
+        move("/", "로그인 후 이용 가능한 기능입니다");
+    }
+});
+post("/followCancel", function () {
+    extract($_POST);
+    $user = ss();
+    db::exec("delete from follows where user_idx = '$user->idx' and target_user_idx = '$target_user_idx'");
+    move("/profile/$target_user_idx", "팔로우 취소 성공");
+});
+get("/api/alert", function () {
+    $user = ss();
+    $following_new_post = db::fetch("select u.id from posts p inner join follows f on p.user_idx = f.target_user_idx inner join users u on u.idx = p.user_idx where f.user_idx = '$user->idx' and p.date > DATE_SUB(NOW(), INTERVAL 5 SECOND) order by p.date desc limit 1");
+    $following_new_debate = db::fetch("select u.id from debates d inner join follows f on d.user_idx = f.target_user_idx inner join users u on u.idx = d.user_idx where f.user_idx = '$user->idx' and d.date > DATE_SUB(NOW(), INTERVAL 5 SECOND) order by d.date desc limit 1");
+
+    if ($following_new_debate) {
+        echo json_encode(["msg" => "$following_new_debate->id 님이 토론을 생성하였습니다"]);
+    } else if ($following_new_post) {
+        echo json_encode(["msg" => "$following_new_post->id 님이 게시글을 작성하였습니다"]);
+    } else {
+        echo json_encode(["msg" => null]);
+    }
+});
+post("/block", function () {
+    extract($_POST);
+    $user = ss();
+    $target_user = db::fetch("select id from users where idx = '$target_user_idx'")->id;
+    if ($user) {
+        db::exec("insert into blocks(user_idx, target_user_idx) values('$user->idx', '$target_user_idx')");
+        move("/profile/$target_user_idx", "$target_user 님이 차단되었습니다.");
+    } else {
+        move("/", "로그인 후 이용 가능한 기능입니다");
+    }
+});
+post("/blockCancel", function () {
+    extract($_POST);
+    $user = ss();
+    $target_user = db::fetch("select id from users where idx = '$target_user_idx'")->id;
+    db::exec("delete from blocks where user_idx = '$user->idx' and target_user_idx = '$target_user_idx'");
+    move("/profile/$target_user_idx", "$target_user 님의 차단이 해제되었습니다.");
 });

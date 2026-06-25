@@ -46,6 +46,14 @@
             </ul>
           </li>
           <li><a href="#">마이페이지</a></li>
+          <?php if ($user->is_admin == 1) { ?>
+            <li><a href="/userAdmin">관리자</a>
+              <ul class="submenu">
+                <li><a href="/userAdmin">회원 관리</a></li>
+                <li><a href="/inquireAnswer">문의 사항 답변</a></li>
+              </ul>
+            </li>
+          <?php } ?>
         </ul>
       </nav>
       <div class="header__actions">
@@ -62,3 +70,23 @@
       </div>
     </div>
   </header>
+
+  <div class="toast"></div>
+
+  <script>
+    setInterval(() => {
+      fetch("/api/alert")
+        .then(res => res.json())
+        .then(data => {
+          if (data.msg) showAlert(data.msg);
+          console.log(data.msg);
+        })
+    }, 1000)
+
+    function showAlert(msg) {
+      const toast = document.querySelector(".toast");
+      toast.textContent = msg;
+      toast.classList.add('toast--show');
+      setTimeout(() => toast.classList.remove("toast--show"), 3000);
+    }
+  </script>
