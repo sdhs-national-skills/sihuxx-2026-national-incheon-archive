@@ -18,6 +18,7 @@ if ($sort == "opinions-desc") $order = "opinions_count desc";
 if ($sort == "opinions-asc") $order = "opinions_count asc";
 
 $debates = db::fetchAll("select d.*, count(o.idx) from debates d left join opinions o on d.idx = o.debate_idx $where group by d.idx order by $order limit $start, $limit");
+$is_banned = db::fetch("select * from bans where user_idx = '$user->idx' and type = 'debate'");
 ?>
 
 <main class="page">
@@ -35,7 +36,15 @@ $debates = db::fetchAll("select d.*, count(o.idx) from debates d left join opini
             <div class="board__data">
 
                 <!-- 툴바: 결과 수 + 정렬 셀렉트 -->
-                <button class="post-add-btn" onclick="<?= $user ? "document.querySelector('.popup').style.display = 'flex'" : "alert('로그인한 회원만 이용 가능합니다')" ?>">등록</button>
+                 <button class="post-add-btn" onclick="<?php
+                if(!$user) {
+                    echo "alert('로그인한 회원만 이용 가능합니다')";
+                } else if ($is_banned) {
+                    echo "alert('해당 서비스는 이용금지 상태입니다. $is_banned->date 부터 활동 가능합니다.')";
+                } else {
+                     echo "document.querySelector('.popup').style.display = 'flex'";
+                }
+                ?>">등록</button>
                 <div class="board__toolbar">
                     <p class="board__count">총 <b><?= $total ?></b>개의 토론</p>
                     <div class="search-box">
@@ -58,7 +67,7 @@ $debates = db::fetchAll("select d.*, count(o.idx) from debates d left join opini
                     <span>제목</span>
                     <span>등록일</span>
                     <span style="text-align:center;">의견수</span>
-                    <?= $user->admin == 'admin' ? "<span>관리</span>" : "" ?>
+                    <?= $user->type == 'admin' ? "<span>관리</span>" : "" ?>
                 </div>
 
                 <!-- 게시글 목록 (10개씩 p1~p5) -->

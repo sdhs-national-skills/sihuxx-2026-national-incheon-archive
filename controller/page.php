@@ -39,8 +39,8 @@ get("/profile/{idx}", function ($idx) {
 get("/postAdmin", function () {
     views("admin/postAdmin");
 });
-get("/postAdmin", function () {
-    views("admin/postAdmin");
+get("/debateAdmin", function () {
+    views("admin/debateAdmin");
 });
 get("/userAdmin", function () {
     views("admin/user");
@@ -293,12 +293,13 @@ post("/adminAnswer", function () {
 });
 post('/ban', function () {
     extract($_POST);
+    var_dump($days);
     $date = date("Y-m-d", strtotime("+$days days"));
-    db::exec("insert into bans(user_idx, date) values ('$user_idx', '$date')");
-    move("/postAdmin", "이용 금지 처리되었습니다");
+    db::exec("insert into bans(user_idx, date, type) values ('$user_idx', '$date', '$type')");
+    move("/{$type}Admin", "이용 금지 처리되었습니다");
 });
-post("/banCancel", function() {
+post("/banCancel", function () {
     extract($_POST);
-    db::exec("delete from bans where user_idx = '$user_idx'");
-    move("/postAdmin", "이용 금지 취소되었습니다");
+    db::exec("delete from bans where user_idx = '$user_idx' and type = '$type'");
+    move("/{$type}Admin", "이용 금지 취소되었습니다");
 });

@@ -23,7 +23,7 @@ if ($sort == "like-desc") $order = "like_count desc";
 if ($sort == "like-asc") $order = "like_count asc";
 
 $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left join likes l on p.idx = l.post_idx $where group by p.idx order by $order limit $start, $limit");
-$is_banned = db::fetch("select * from bans where user_idx = '$user->idx'");
+$is_banned = db::fetch("select * from bans where user_idx = '$user->idx' and type = 'post'");
 ?>
 
 <main class="page">

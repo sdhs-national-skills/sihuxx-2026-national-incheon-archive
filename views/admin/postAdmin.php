@@ -18,11 +18,7 @@ $users = db::fetchAll("select * from users where idx in (select user_idx from po
       <!-- 툴바 -->
       <div class="admin__toolbar">
         <div class="admin__count">
-          게시글 작성 회원 <b id="userCount">42</b>명
-        </div>
-        <div class="search-box">
-          <input type="text" placeholder="아이디 또는 이름으로 검색">
-          <button type="button">검색</button>
+          게시글 작성 회원 <b id="userCount"><?= count($users)?></b>명
         </div>
       </div>
 
@@ -31,7 +27,7 @@ $users = db::fetchAll("select * from users where idx in (select user_idx from po
 
         <!-- 일반 상태 (data-banned="false") -->
         <?php foreach ($users as $user) { 
-          $is_banned = db::fetch("select * from bans where user_idx = '$user->idx'");
+          $is_banned = db::fetch("select * from bans where user_idx = '$user->idx' and type = 'post'");
           ?>
           <li class="user-item" data-banned="<?= $is_banned ? "true" : "false" ?>" data-idx="<?= $user->idx ?>">
             <a class="user-item__avatar-link">
@@ -51,7 +47,7 @@ $users = db::fetchAll("select * from users where idx in (select user_idx from po
               <input type="hidden" name="user_idx" value="<?= $user->idx ?>">
               <!-- 일반: 이용금지 버튼 / 밴: 취소 버튼 (CSS가 data-banned로 전환) -->
               <button type="button" onclick="document.querySelector('#banModal<?= $user->idx ?>').classList.add('ban-modal--show')" class="btn-ban" data-open-ban>이용금지</button>
-              <button formaction="/banCancel" class="btn-unban">취소</button>
+              <button formaction="/banCancel" name="type" value="post" class="btn-unban">취소</button>
             </form>
           </li>
 
@@ -90,7 +86,7 @@ $users = db::fetchAll("select * from users where idx in (select user_idx from po
 
                 <div class="ban-modal__actions">
                   <button type="button" class="btn-ghost" onclick="document.querySelector('#banModal<?= $user->idx ?>').classList.remove('ban-modal--show')" id="cancelBanModal">취소</button>
-                  <button  class="btn-ban-confirm" id="submitBan">이용금지</button>
+                  <button name="type" value="post" class="btn-ban-confirm" id="submitBan">이용금지</button>
                 </div>
               </form>
 
