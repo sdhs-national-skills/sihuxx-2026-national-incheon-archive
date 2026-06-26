@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- 생성 시간: 26-06-25 12:53
+-- 생성 시간: 26-06-26 13:54
 -- 서버 버전: 10.4.32-MariaDB
 -- PHP 버전: 8.2.12
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- 데이터베이스: `incheonarchive`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 테이블 구조 `bans`
+--
+
+CREATE TABLE `bans` (
+  `idx` int(11) NOT NULL,
+  `user_idx` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `type` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `bans`
+--
+
+INSERT INTO `bans` (`idx`, `user_idx`, `date`, `type`) VALUES
+(3, 4, '2026-07-03', 'post'),
+(8, 4, '2026-06-30', 'debate');
 
 -- --------------------------------------------------------
 
@@ -82,7 +103,9 @@ CREATE TABLE `debates` (
 
 INSERT INTO `debates` (`idx`, `title`, `date`, `result`, `user_idx`) VALUES
 (1, '엉덩이는 두개인가 하나인가', '2026-06-22 11:49:45', 0, 2),
-(2, '꺅두기는 성이 꺅이고 이름이 두기이다', '2026-06-23 09:02:53', 0, 2);
+(2, '꺅두기는 성이 꺅이고 이름이 두기이다', '2026-06-23 09:02:53', 0, 2),
+(5, '똥은 왜 이름이 똥인가', '2026-06-26 11:14:39', 0, 5),
+(6, '닭이 먼저인가 알이 먼저인가 미노타우르스가 먼저인가', '2026-06-26 11:15:19', 0, 4);
 
 -- --------------------------------------------------------
 
@@ -149,8 +172,8 @@ CREATE TABLE `inquires` (
 --
 
 INSERT INTO `inquires` (`idx`, `title`, `content`, `date`, `img`, `public`, `user_idx`, `answer`) VALUES
-(1, '인천 아카이브 이름 구려요', 'ㅈㄱㄴ', '2026-06-24 18:03:06', '/asset/inquires/구치파치.webp', 1, 2, '꾸췌파추ㅔ'),
-(2, '비공개 게시글이 있으면', 'be 공개 게시글도 있나 ㅋㅋ', '2026-06-24 18:03:32', '', 0, 2, '너무 웃기네요ㅜㅜ');
+(1, '인천 아카이브 이름 구려요', 'ㅈㄱㄴ', '2026-06-24 18:03:06', '/asset/inquires/구치파치.webp', 1, 2, '저도 압니다...'),
+(2, '비공개 게시글이 있으면', 'be 공개 게시글도 있나 ㅋㅋ', '2026-06-24 18:03:32', '', 0, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -185,6 +208,13 @@ CREATE TABLE `likes` (
   `post_idx` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 테이블의 덤프 데이터 `likes`
+--
+
+INSERT INTO `likes` (`idx`, `user_idx`, `post_idx`, `date`) VALUES
+(28, 5, 13, '2026-06-26 11:39:46');
 
 -- --------------------------------------------------------
 
@@ -229,7 +259,10 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`idx`, `title`, `category`, `date`, `detail`, `photo`, `user_idx`) VALUES
-(9, 'ㅎㅇ용', '정보', '2026-06-25 17:09:41', 'ㅋㅋ', '', 2);
+(9, 'ㅎㅇ용', '정보', '2026-06-25 17:09:41', 'ㅋㅋ', '', 2),
+(10, '야 똥 싸라', '먹거리', '2026-06-26 19:48:22', '똥을 싸면 건강에 좋다', '', 4),
+(12, '전주 비빔밥보다 더 신선한 비빔밥은?', '정보', '2026-06-26 20:33:39', '이번주 비빔밥..ㅋㅋ', '', 5),
+(13, '샹크스가 여자인 이유는?????????????????????????', '먹거리', '2026-06-26 20:34:16', '암 컷 (arm cut) 이라서 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ', '/asset/posts/wo78o84x7wxmmc4f8m83.jpg', 5);
 
 -- --------------------------------------------------------
 
@@ -253,12 +286,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`idx`, `id`, `pw`, `name`, `profile`, `type`, `login_token`, `date`) VALUES
-(2, 'admin', '1234', '관리자', '/asset/profile/귀여운 두기.tmp', 'admin', '746a4ac977fc0ece045474a1320845339da8fb413886c753480c512ec64665cf', '2026-06-25 18:57:32'),
-(3, 'sihu', '1234', '시후', '/asset/profile/꺅두기.png', 'general', NULL, '2026-06-25 19:50:16');
+(2, 'admin', '1234', '관리자', '/asset/profile/귀여운 두기.tmp', 'admin', NULL, '2026-06-25 18:57:32'),
+(3, 'sihu', '1234', '시후', '/asset/profile/꺅두기.png', 'post', NULL, '2026-06-25 19:50:16'),
+(4, 'user1', '1234', '유저1', '/asset/profile/구치파치.webp', 'general', '1be7da7e0405ba501eaa5c7d4ae9666d91e0c53e84dd2f72c87950b91d6c0f8b', '2026-06-26 19:40:30'),
+(5, 'user2', '1234', '유저2', '/asset/profile/대회.png', 'debate', '782141672652809ffa8cfcaac77e04ed018c17c2462b94030e3eb5df0f59c2b5', '2026-06-26 19:47:35');
 
 --
 -- 덤프된 테이블의 인덱스
 --
+
+--
+-- 테이블의 인덱스 `bans`
+--
+ALTER TABLE `bans`
+  ADD PRIMARY KEY (`idx`);
 
 --
 -- 테이블의 인덱스 `blocks`
@@ -353,6 +394,12 @@ ALTER TABLE `users`
 --
 
 --
+-- 테이블의 AUTO_INCREMENT `bans`
+--
+ALTER TABLE `bans`
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- 테이블의 AUTO_INCREMENT `blocks`
 --
 ALTER TABLE `blocks`
@@ -374,7 +421,7 @@ ALTER TABLE `comments_likes`
 -- 테이블의 AUTO_INCREMENT `debates`
 --
 ALTER TABLE `debates`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 테이블의 AUTO_INCREMENT `debate_opinions`
@@ -404,7 +451,7 @@ ALTER TABLE `inquire_comments`
 -- 테이블의 AUTO_INCREMENT `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- 테이블의 AUTO_INCREMENT `opinions`
@@ -416,13 +463,13 @@ ALTER TABLE `opinions`
 -- 테이블의 AUTO_INCREMENT `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- 테이블의 AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- 덤프된 테이블의 제약사항
@@ -499,8 +546,6 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `opinions`
   ADD CONSTRAINT `opinions_ibfk_1` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
-  ADD CONSTRAINT `opinions_ibfk_2` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
-  ADD CONSTRAINT `opinions_ibfk_3` FOREIGN KEY (`user_idx`) REFERENCES `users` (`idx`) ON DELETE CASCADE,
   ADD CONSTRAINT `opinions_ibfk_4` FOREIGN KEY (`debate_idx`) REFERENCES `debates` (`idx`) ON DELETE CASCADE;
 
 --

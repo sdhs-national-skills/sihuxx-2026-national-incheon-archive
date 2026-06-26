@@ -1109,3 +1109,304 @@
 }
 .btn-ban-confirm:hover { background: #b91c1c; border-color: #b91c1c; }
 
+@charset "utf-8";
+/* =========================================================
+   인천 아카이브 - 마이페이지 스타일 (mypage.css)
+   등록한 게시글 · 등록한 토론 · 등록한 문의 사항
+   ========================================================= */
+
+/* =========================================================
+   공통 레이아웃
+   ========================================================= */
+.admin { padding: 56px 0 96px; }
+
+.admin-head { text-align: left; margin-bottom: 24px; }
+.admin-head .eyebrow {
+  display: inline-block; color: var(--green-700);
+  font-weight: 700; font-size: 13px;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.admin-head h2 {
+  font-size: 32px; font-weight: 800; color: var(--green-900);
+  letter-spacing: -0.02em; margin: 10px 0 8px;
+}
+.admin-head p { color: var(--gray-700); font-size: 15px; }
+
+/* 탭 */
+.my-tabs {
+  display: flex; gap: 8px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--gray-200);
+  flex-wrap: wrap;
+}
+.my-tab {
+  position: relative;
+  padding: 14px 20px;
+  font-size: 15px; font-weight: 700; color: var(--gray-400);
+  cursor: pointer; background: none; border: none;
+  transition: color var(--t-fast);
+}
+.my-tab:hover { color: var(--green-700); }
+.my-tab.active { color: var(--green-700); }
+.my-tab.active::after {
+  content: ""; position: absolute;
+  left: 0; right: 0; bottom: -1px; height: 3px;
+  background: var(--green-500); border-radius: 3px 3px 0 0;
+}
+
+/* 패널 숨김 */
+.my-panel.hidden { display: none; }
+
+
+/* =========================================================
+   리스트 공통 (그리드 헤더 + 행)
+   ========================================================= */
+.board__head {
+  display: grid; gap: 16px; padding: 0 18px 14px;
+  border-bottom: 2px solid var(--green-900);
+  font-size: 13px; font-weight: 700; color: var(--gray-400);
+  letter-spacing: .04em;
+}
+/* 영역별 컬럼 구성 */
+.my-head--post    { grid-template-columns: 1fr 130px 110px 150px; }
+.my-head--debate  { grid-template-columns: 1fr 130px 220px 180px; }
+.my-head--inquiry { grid-template-columns: 1fr 130px 150px; }
+.board__head span:last-child { text-align: right; }
+
+.my-list { display: flex; flex-direction: column; }
+
+.my-item {
+  display: grid; gap: 16px; align-items: center;
+  padding: 20px 18px;
+  border-bottom: 1px solid var(--gray-200);
+  transition: background var(--t-fast);
+}
+.my-item:hover { background: var(--green-100); }
+
+/* 영역별 그리드 */
+.my-item--post    { grid-template-columns: 1fr 130px 110px 150px; }
+.my-item--debate  { grid-template-columns: 1fr 130px 220px 180px; }
+.my-item--inquiry { grid-template-columns: 1fr 130px 150px; }
+
+/* 제목 */
+.my-item__title {
+  font-size: 16px; font-weight: 600; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color var(--t-fast);
+  display: flex; align-items: center; gap: 8px;
+}
+.my-item__title:hover { color: var(--green-700); }
+
+/* 날짜 */
+.my-item__date { font-size: 14px; color: var(--gray-400); }
+
+/* 좋아요 */
+.my-item__like {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-weight: 700; color: var(--green-700); font-size: 15px;
+}
+.my-item__like svg { width: 16px; height: 16px; fill: var(--green-500); }
+
+/* 관리 버튼 영역 */
+.my-item__actions {
+  display: flex; gap: 8px; justify-content: flex-end;
+  align-items: center;
+}
+
+/* 미니 버튼 (수정/삭제) */
+.btn-mini {
+  padding: 7px 14px; border-radius: 8px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; border: 1.5px solid transparent;
+  transition: background var(--t-fast), color var(--t-fast),
+              border-color var(--t-fast), transform var(--t-fast);
+  white-space: nowrap;
+}
+.btn-mini--edit {
+  background: #fff; color: var(--green-700);
+  border-color: var(--green-300);
+}
+.btn-mini--edit:hover {
+  background: var(--green-500); color: #fff;
+  border-color: var(--green-500); transform: translateY(-2px);
+}
+.btn-mini--delete {
+  background: #fff; color: #b91c1c;
+  border-color: #fecaca;
+}
+.btn-mini--delete:hover {
+  background: #dc2626; color: #fff;
+  border-color: #dc2626; transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   토론 영역 - 찬/반 비율 + 종료 버튼
+   ========================================================= */
+.my-item__ratio {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.ratio-bar {
+  position: relative;
+  width: 100%; height: 8px; border-radius: 999px;
+  background: #fde2e2;  /* 반대(빨강 연하게) 배경 */
+  overflow: hidden;
+}
+.ratio-bar__agree {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: var(--green-500);  /* 찬성(초록) */
+  border-radius: 999px;
+}
+.ratio-text {
+  font-size: 12px; color: var(--gray-700); font-weight: 600;
+}
+.ratio-text__agree  { color: var(--green-700); }
+.ratio-text__oppose { color: #dc2626; }
+
+/* 종료 버튼 (우세쪽만 노출) */
+.btn-close {
+  padding: 7px 14px; border-radius: 8px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; border: 1.5px solid transparent;
+  transition: background var(--t-fast), transform var(--t-fast);
+  white-space: nowrap;
+}
+.btn-close--agree {
+  background: var(--green-500); color: #fff; border-color: var(--green-500);
+}
+.btn-close--agree:hover { background: var(--green-700); transform: translateY(-2px); }
+.btn-close--oppose {
+  background: #dc2626; color: #fff; border-color: #dc2626;
+}
+.btn-close--oppose:hover { background: #b91c1c; transform: translateY(-2px); }
+
+/* 종료됨 라벨 */
+.closed-label {
+  font-size: 13px; font-weight: 700; color: var(--gray-400);
+}
+
+/* 종료 표시 태그 (제목 옆) */
+.close-tag {
+  font-size: 12px; font-weight: 700;
+  padding: 2px 8px; border-radius: 999px;
+  flex: none;
+}
+.close-tag--agree  { background: var(--green-100); color: var(--green-700); }
+.close-tag--oppose { background: #fef2f2; color: #dc2626; }
+
+/* 종료된 토론 행은 흐리게 */
+.my-item--debate[data-status="closed"] .my-item__title { color: var(--gray-700); }
+
+
+/* =========================================================
+   문의 영역 - 태그 + 답변완료 시 버튼 숨김
+   ========================================================= */
+.inquiry-tag {
+  font-size: 12px; font-weight: 700;
+  padding: 2px 10px; border-radius: 999px;
+  flex: none;
+}
+.inquiry-tag--private { background: var(--gray-200); color: var(--gray-700); }
+.inquiry-tag--done    { background: var(--green-100); color: var(--green-700); }
+
+/* 답변완료 문의는 수정/삭제 버튼 숨김 */
+.my-item--inquiry[data-answered="true"] .btn-mini { display: none; }
+/* 대신 안내 텍스트 */
+.my-item--inquiry[data-answered="true"] .my-item__actions::after {
+  content: "답변 완료";
+  font-size: 13px; font-weight: 700; color: var(--gray-400);
+}
+
+
+/* =========================================================
+   수정 모달 (게시글 / 문의 공통)
+   ========================================================= */
+.edit-modal {
+  position: fixed; inset: 0;
+  background: rgba(15, 61, 46, .45);
+  display: none;
+  justify-content: center; align-items: center;
+  z-index: 1000; padding: 20px;
+}
+.edit-modal--show {
+  display: flex; animation: modalFadeIn .25s ease;
+}
+@keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.edit-modal__panel {
+  background: #fff; border-radius: 20px;
+  width: 100%; max-width: 520px;
+  max-height: 90vh; overflow-y: auto;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
+  animation: modalSlideUp .3s ease;
+}
+@keyframes modalSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.edit-modal__head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
+}
+.edit-modal__title {
+  font-size: 20px; font-weight: 800; color: var(--green-900);
+}
+.edit-modal__close {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: var(--gray-200); cursor: pointer; border: none;
+  transition: background var(--t-fast);
+}
+.edit-modal__close:hover { background: var(--green-100); }
+.edit-modal__close svg { width: 18px; height: 18px; stroke: var(--gray-700); }
+
+.edit-modal__field {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 18px;
+}
+.edit-modal__label {
+  font-size: 13px; font-weight: 700; color: var(--green-900);
+}
+.edit-modal__label .req { color: #dc2626; }
+
+.edit-modal__input,
+.edit-modal__select,
+.edit-modal__textarea {
+  width: 100%; padding: 12px 16px;
+  border: 1.5px solid var(--gray-200); border-radius: 12px;
+  font-size: 14px; color: var(--ink);
+  font-family: inherit; outline: none;
+  transition: border-color var(--t-fast);
+}
+.edit-modal__input:focus,
+.edit-modal__select:focus,
+.edit-modal__textarea:focus { border-color: var(--green-500); }
+.edit-modal__textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+.edit-modal__select { cursor: pointer; background: #fff; }
+.edit-modal__file {
+  width: 100%; padding: 10px 0; font-size: 14px; color: var(--gray-700);
+}
+
+.edit-modal__actions {
+  display: flex; justify-content: flex-end; gap: 10px;
+  margin-top: 26px;
+}
+.btn-ghost {
+  background: #fff; color: var(--gray-700);
+  border: 1.5px solid var(--gray-200);
+  padding: 11px 22px; border-radius: 10px;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background var(--t-fast);
+}
+.btn-ghost:hover { background: var(--gray-200); }
+.btn-primary {
+  background: var(--green-500); color: #fff;
+  border: 1.5px solid var(--green-500);
+  padding: 11px 22px; border-radius: 10px;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.btn-primary:hover { background: var(--green-700); border-color: var(--green-700); }
+

@@ -46,7 +46,7 @@
               <li><a href="/debate">전체 토론</a></li>
             </ul>
           </li>
-          <li><a href="#">마이페이지</a></li>
+          <li><a href="/mypage">마이페이지</a></li>
           <?php if (!empty($user) && $user->type == 'admin') { ?>
             <li><a href="/userAdmin">관리자</a>
               <ul class="submenu">

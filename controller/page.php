@@ -48,6 +48,9 @@ get("/userAdmin", function () {
 get("/inquireAnswer", function () {
     views("admin/inquire");
 });
+get("/mypage", function () {
+    views("mypage");
+});
 post("/signup", function () {
     extract($_POST);
     $file = $_FILES["file"];
@@ -104,10 +107,30 @@ post("/addPost", function () {
         move("/board", "게시글 추가 성공");
     }
 });
+post("/editPost", function () {
+    extract($_POST);
+    $images = [];
+    $file = $_FILES["file"];
+    foreach ($file["tmp_name"] as $i => $tmp) {
+        if (!$tmp) continue;
+        $path = "/asset/posts" . $files["name"][$i];
+        move_uploaded_file($tmp, ".$path");
+        $images[] = $path;
+    }
+    $image = implode(",", $images);
+
+    if ($image) {
+        db::exec("update posts set title = '$title', detail = '$detail', category = '$category', photo = '$image' where idx = '$post_idx'");
+        move("/board/$post_idx", "게시글 수정 성공");
+    } else {
+        db::exec("update posts set title = '$title', detail = '$detail', category = '$category' where idx = '$post_idx'");
+        move("/board/$post_idx", "게시글 수정 성공");
+    }
+});
 post('/deletePost', function () {
     extract($_POST);
     db::exec("delete from posts where idx = '$idx'");
-    move("/", "게시글이 삭제 되었습니다");
+    move("/board", "게시글이 삭제 되었습니다");
 });
 post("/like", function () {
     extract($_POST);
