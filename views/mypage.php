@@ -2,6 +2,7 @@
 $user = ss();
 if (!$user) back("로그인 한 회원만 접근 가능한 페이지입니다");
 $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left join likes l on p.idx = l.post_idx where p.user_idx = '$user->idx' group by p.idx order by date desc");
+$debates = db::fetchAll("select * from debates where user_idx = '$user->idx' order by date desc");
 ?>
 
 <main class="page" style="padding:100px 0 ;">
@@ -119,87 +120,35 @@ $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left 
         <ul class="my-list">
 
           <!-- 진행 중 토론 (의견 5명 이상, 찬성 우세 → 찬성 종료 버튼 노출) -->
-          <li class="my-item my-item--debate" data-status="open">
-            <a href="sub4.html" class="my-item__title">
-              인천 도시철도 2호선 연장, 어디까지 가야 할까?
-            </a>
-            <span class="my-item__date">2026-04-10</span>
-            <span class="my-item__ratio">
-              <span class="ratio-bar">
-                <span class="ratio-bar__agree" style="width:68%"></span>
+          <?php foreach ($debates as $debate) {
+            $opinions = db::fetch("select count(*) as total, sum(o.type = 1) as agree, sum(o.type = 0) as oppose from opinions o inner join debate_opinions d on o.debate_idx = d.debate_idx and o.user_idx = d.user_idx where o.debate_idx = '$debate->idx'");
+            $agreeRate = $opinions->total > 0 ? round($opinions->agree / $opinions->total * 100) : 0;
+            $opposeRate = $opinions->total > 0 ? round($opinions->oppose / $opinions->total * 100) : 0;
+            ?>
+            <li class="my-item my-item--debate" data-status="open">
+              <a href="/debate/<?= $debate->idx ?>" class="my-item__title">
+                <?= $debate->title ?>
+              </a>
+              <span class="my-item__date"><?= $debate->date ?></span>
+              <span class="my-item__ratio">
+                <span class="ratio-bar">
+                  <span class="ratio-bar__agree" style="width:<?= $agreeRate ?>%"></span>
+                </span>
+                <span class="ratio-text">
+                  <b class="ratio-text__agree">찬 <?= $agreeRate ?>%</b> / <b class="ratio-text__oppose">반 <?= $opposeRate ?>%</b>
+                </span>
               </span>
-              <span class="ratio-text">
-                <b class="ratio-text__agree">찬 68%</b> / <b class="ratio-text__oppose">반 32%</b>
-              </span>
-            </span>
-            <span class="my-item__actions">
-              <!-- 의견 5명 이상 + 우세쪽 종료 버튼 (찬성 우세) -->
-              <button type="button" class="btn-close btn-close--agree">찬성으로 종료</button>
-              <button type="button" class="btn-mini btn-mini--delete">삭제</button>
-            </span>
-          </li>
-
-          <!-- 진행 중 토론 (반대 우세 → 반대 종료 버튼 노출) -->
-          <li class="my-item my-item--debate" data-status="open">
-            <a href="sub4.html" class="my-item__title">
-              영종도 관광 개발 vs 자연 보존, 균형점은?
-            </a>
-            <span class="my-item__date">2026-03-15</span>
-            <span class="my-item__ratio">
-              <span class="ratio-bar">
-                <span class="ratio-bar__agree" style="width:41%"></span>
-              </span>
-              <span class="ratio-text">
-                <b class="ratio-text__agree">찬 41%</b> / <b class="ratio-text__oppose">반 59%</b>
-              </span>
-            </span>
-            <span class="my-item__actions">
-              <button type="button" class="btn-close btn-close--oppose">반대로 종료</button>
-              <button type="button" class="btn-mini btn-mini--delete">삭제</button>
-            </span>
-          </li>
-
-          <!-- 의견 5명 미만 → 종료 버튼 없음 -->
-          <li class="my-item my-item--debate" data-status="open">
-            <a href="sub4.html" class="my-item__title">
-              부평 문화의 거리, 야간 영업 확대 어떻게 보시나요?
-            </a>
-            <span class="my-item__date">2026-03-02</span>
-            <span class="my-item__ratio">
-              <span class="ratio-bar">
-                <span class="ratio-bar__agree" style="width:50%"></span>
-              </span>
-              <span class="ratio-text">
-                <b class="ratio-text__agree">찬 50%</b> / <b class="ratio-text__oppose">반 50%</b>
-              </span>
-            </span>
-            <span class="my-item__actions">
-              <!-- 5명 미만이거나 동률이면 종료 버튼 미노출 -->
-              <button type="button" class="btn-mini btn-mini--delete">삭제</button>
-            </span>
-          </li>
-
-          <!-- 종료된 토론 (찬성으로 종료됨) -->
-          <li class="my-item my-item--debate" data-status="closed">
-            <a href="sub4.html" class="my-item__title">
-              인천대공원 반려동물 출입 구역 확대
-              <span class="close-tag close-tag--agree">(찬성)</span>
-            </a>
-            <span class="my-item__date">2026-02-20</span>
-            <span class="my-item__ratio">
-              <span class="ratio-bar">
-                <span class="ratio-bar__agree" style="width:72%"></span>
-              </span>
-              <span class="ratio-text">
-                <b class="ratio-text__agree">찬 72%</b> / <b class="ratio-text__oppose">반 28%</b>
-              </span>
-            </span>
-            <span class="my-item__actions">
-              <span class="closed-label">종료됨</span>
-              <button type="button" class="btn-mini btn-mini--delete">삭제</button>
-            </span>
-          </li>
-
+              <form method="POST" class="my-item__actions">
+                <input type="hidden" name="idx" value="<?= $debate->idx ?>">
+                 <?php if($opinions->total >= 5) { ?>
+                   <button formaction="/debateEnd" name="result" value="<?= $agreeRate > $opposeRate ? "1" : "0" ?>" class="btn-close btn-close--<?= $agreeRate > $opposeRate ? "agree" : "oppose" ?>"><?= $agreeRate > $opposeRate ? "찬성" : "반대" ?>으로 종료</button>
+                 <?php } else if ($debate->result != null) { ?>
+                   <span class="closed-label">종료됨</span>
+                 <?php } ?>
+                 <button formaction="/deleteDebate" type="button" class="btn-mini btn-mini--delete">삭제</button>
+              </form>
+            </li>
+          <?php } ?>
         </ul>
       </div>
 
@@ -254,15 +203,6 @@ $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left 
           </li>
 
         </ul>
-      </div>
-
-      <!-- 페이징 -->
-      <div class="pager">
-        <a href="#" class="disabled">◀</a>
-        <a href="#" class="active">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">▶</a>
       </div>
 
     </div>

@@ -193,6 +193,11 @@ post("/deleteDebate", function () {
     db::exec("delete from debates where idx = '$idx'");
     move("/debate", "토론 삭제 성공");
 });
+post("/debateEnd", function () {
+    extract($_POST);
+    db::exec("update debates set result = '$result' where idx = '$idx'");
+    move("/debate/$idx", "토론 종료");
+});
 post("/agree", function () {
     extract($_POST);
     $user = ss();
