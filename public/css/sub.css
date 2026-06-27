@@ -1109,7 +1109,6 @@
 }
 .btn-ban-confirm:hover { background: #b91c1c; border-color: #b91c1c; }
 
-@charset "utf-8";
 /* =========================================================
    인천 아카이브 - 마이페이지 스타일 (mypage.css)
    등록한 게시글 · 등록한 토론 · 등록한 문의 사항
@@ -1185,7 +1184,17 @@
 
 /* 영역별 그리드 */
 .my-item--post    { grid-template-columns: 1fr 130px 110px 150px; }
-.my-item--debate  { grid-template-columns: 1fr 130px 220px 180px; }
+.my-item--debate { grid-template-columns: minmax(0, 1fr) 160px 220px 180px; }
+
+.my-item--debate .my-item__title {
+  display: flex; align-items: center; gap: 8px;
+  min-width: 0; /* 넘침 방지 */
+}
+
+.my-item--debate form.my-item__actions {
+  display: flex; align-items: center; gap: 8px;
+  justify-content: flex-end;
+}
 .my-item--inquiry { grid-template-columns: 1fr 130px 150px; }
 
 /* 제목 */
@@ -1409,4 +1418,3 @@
   transition: background var(--t-fast), border-color var(--t-fast);
 }
 .btn-primary:hover { background: var(--green-700); border-color: var(--green-700); }
-

@@ -36,15 +36,15 @@ $is_banned = db::fetch("select * from bans where user_idx = '$user->idx' and typ
             <div class="board__data">
 
                 <!-- 툴바: 결과 수 + 정렬 셀렉트 -->
-                 <button class="post-add-btn" onclick="<?php
-                if(!$user) {
-                    echo "alert('로그인한 회원만 이용 가능합니다')";
-                } else if ($is_banned) {
-                    echo "alert('해당 서비스는 이용금지 상태입니다. $is_banned->date 부터 활동 가능합니다.')";
-                } else {
-                     echo "document.querySelector('.popup').style.display = 'flex'";
-                }
-                ?>">등록</button>
+                <button class="post-add-btn" onclick="<?php
+                                                        if (!$user) {
+                                                            echo "alert('로그인한 회원만 이용 가능합니다')";
+                                                        } else if ($is_banned) {
+                                                            echo "alert('해당 서비스는 이용금지 상태입니다. $is_banned->date 부터 활동 가능합니다.')";
+                                                        } else {
+                                                            echo "document.querySelector('.popup').style.display = 'flex'";
+                                                        }
+                                                        ?>">등록</button>
                 <div class="board__toolbar">
                     <p class="board__count">총 <b><?= $total ?></b>개의 토론</p>
                     <div class="search-box">
@@ -74,7 +74,13 @@ $is_banned = db::fetch("select * from bans where user_idx = '$user->idx' and typ
                 <div class="board__list">
                     <?php foreach ($debates as $debate) {
                     ?>
-                        <div class="post"><span class="post__rank"><?= $debate->idx ?></span><a href="/debate/<?= $debate->idx ?>" class="post__title"><?= $debate->title ?></a><span class="post__date"><?= $debate->date ?></span><span class="post__like">0개</span>
+                        <div class="post"><span class="post__rank"><?= $debate->idx ?></span><a href="/debate/<?= $debate->idx ?>" class="post__title">
+                                <?php if ($debate->result != null) { ?>
+                                    <span class="close-tag close-tag--<?= $debate->result == 1 ? 'agree' : 'oppose' ?>">
+                                        (<?= $debate->result == 1 ? '찬성' : '반대' ?>)
+                                    </span>
+                                <?php } ?>
+                                <?= $debate->title ?></a><span class="post__date"><?= $debate->date ?></span><span class="post__like">0개</span>
                             <form action="/deleteDebate" method="POST" class="admin-box">
                                 <input type="hidden" name="idx" value="<?= $debate->idx ?>">
                                 <button>삭제</button>

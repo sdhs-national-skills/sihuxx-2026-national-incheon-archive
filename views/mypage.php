@@ -3,6 +3,7 @@ $user = ss();
 if (!$user) back("로그인 한 회원만 접근 가능한 페이지입니다");
 $posts = db::fetchAll("select p.*, count(l.idx) as like_count from posts p left join likes l on p.idx = l.post_idx where p.user_idx = '$user->idx' group by p.idx order by date desc");
 $debates = db::fetchAll("select * from debates where user_idx = '$user->idx' order by date desc");
+$inquires = db::fetchAll("select * from inquires where user_idx = '$user->idx' order by date desc");
 ?>
 
 <main class="page" style="padding:100px 0 ;">
@@ -124,9 +125,15 @@ $debates = db::fetchAll("select * from debates where user_idx = '$user->idx' ord
             $opinions = db::fetch("select count(*) as total, sum(o.type = 1) as agree, sum(o.type = 0) as oppose from opinions o inner join debate_opinions d on o.debate_idx = d.debate_idx and o.user_idx = d.user_idx where o.debate_idx = '$debate->idx'");
             $agreeRate = $opinions->total > 0 ? round($opinions->agree / $opinions->total * 100) : 0;
             $opposeRate = $opinions->total > 0 ? round($opinions->oppose / $opinions->total * 100) : 0;
-            ?>
+          ?>
+
             <li class="my-item my-item--debate" data-status="open">
               <a href="/debate/<?= $debate->idx ?>" class="my-item__title">
+                <?php if ($debate->result != null) { ?>
+                  <span class="close-tag close-tag--<?= $debate->result == 1 ? 'agree' : 'oppose' ?>">
+                    (<?= $debate->result == 1 ? '찬성' : '반대' ?>)
+                  </span>
+                <?php } ?>
                 <?= $debate->title ?>
               </a>
               <span class="my-item__date"><?= $debate->date ?></span>
@@ -140,12 +147,12 @@ $debates = db::fetchAll("select * from debates where user_idx = '$user->idx' ord
               </span>
               <form method="POST" class="my-item__actions">
                 <input type="hidden" name="idx" value="<?= $debate->idx ?>">
-                 <?php if($opinions->total >= 5) { ?>
-                   <button formaction="/debateEnd" name="result" value="<?= $agreeRate > $opposeRate ? "1" : "0" ?>" class="btn-close btn-close--<?= $agreeRate > $opposeRate ? "agree" : "oppose" ?>"><?= $agreeRate > $opposeRate ? "찬성" : "반대" ?>으로 종료</button>
-                 <?php } else if ($debate->result != null) { ?>
-                   <span class="closed-label">종료됨</span>
-                 <?php } ?>
-                 <button formaction="/deleteDebate" type="button" class="btn-mini btn-mini--delete">삭제</button>
+                <?php if ($opinions->total >= 5) { ?>
+                  <button formaction="/debateEnd" name="result" value="<?= $agreeRate > $opposeRate ? "1" : "0" ?>" class="btn-close btn-close--<?= $agreeRate > $opposeRate ? "agree" : "oppose" ?>"><?= $agreeRate > $opposeRate ? "찬성" : "반대" ?>으로 종료</button>
+                <?php } else if ($debate->result != null) { ?>
+                  <span class="closed-label">종료됨</span>
+                <?php } ?>
+                <button formaction="/deleteDebate" type="button" class="btn-mini btn-mini--delete">삭제</button>
               </form>
             </li>
           <?php } ?>
@@ -164,43 +171,57 @@ $debates = db::fetchAll("select * from debates where user_idx = '$user->idx' ord
         <ul class="my-list">
 
           <!-- 일반 문의 (수정/삭제 가능) -->
-          <li class="my-item my-item--inquiry" data-answered="false">
-            <a href="inquiry_detail.html" class="my-item__title">
-              프로필 사진이 자꾸 초기화되는 문제 문의드립니다
-            </a>
-            <span class="my-item__date">2026-04-05</span>
-            <span class="my-item__actions">
-              <button type="button" class="btn-mini btn-mini--edit" data-edit-inquiry>수정</button>
-              <button type="button" class="btn-mini btn-mini--delete">삭제</button>
-            </span>
-          </li>
+          <?php foreach ($inquires as $inquire) { ?>
+            <li class="my-item my-item--inquiry" data-answered="<?= $inquire->answer == null ? "false" : 'true' ?>">
+              <a href="/inquire/<?= $inquire->idx ?>" class="my-item__title">
+                <?= $inquire->title ?>
+                <?php if ($inquire->public == 0) { ?>
+                  <span class="inquiry-tag inquiry-tag--private">비공개</span>
+                <?php } ?>
+              </a>
+              <span class="my-item__date"><?= $inquire->date ?></span>
+              <form method="post" class="my-item__actions">
+                <button type="button" class="btn-mini btn-mini--edit" onclick="document.querySelector('#inquiryEditModal<?= $inquire->idx ?>').classList.add('edit-modal--show')" data-edit-inquiry>수정</button>
+                <button name="idx" value="<?= $inquire->idx ?>" class="btn-mini btn-mini--delete">삭제</button>
+              </form>
+            </li>
 
-          <!-- 비공개 문의 -->
-          <li class="my-item my-item--inquiry" data-answered="false">
-            <a href="inquiry_detail.html" class="my-item__title">
-              계정 탈퇴는 어떻게 진행하나요?
-              <span class="inquiry-tag inquiry-tag--private">비공개</span>
-            </a>
-            <span class="my-item__date">2026-03-28</span>
-            <span class="my-item__actions">
-              <button type="button" class="btn-mini btn-mini--edit" data-edit-inquiry>수정</button>
-              <button type="button" class="btn-mini btn-mini--delete">삭제</button>
-            </span>
-          </li>
+            <div class="edit-modal" id="inquiryEditModal<?= $inquire->idx ?>">
+              <form method="post" action="/editInquire" enctype="multipart/form-data"class="edit-modal__panel">
+                <div class="edit-modal__head">
+                  <h3 class="edit-modal__title">문의 사항 수정</h3>
+                  <button type="button" class="edit-modal__close" onclick="document.querySelector('#inquiryEditModal<?= $inquire->idx ?>').classList.remove('edit-modal--show')" data-close-modal>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
 
-          <!-- 답변 완료 문의 (수정/삭제 버튼 숨김) -->
-          <li class="my-item my-item--inquiry" data-answered="true">
-            <a href="inquiry_detail.html" class="my-item__title">
-              토론 의견 작성이 안 되는 현상 신고합니다
-              <span class="inquiry-tag inquiry-tag--done">답변완료</span>
-            </a>
-            <span class="my-item__date">2026-03-10</span>
-            <span class="my-item__actions">
-              <!-- 답변완료 시 수정/삭제 버튼이 CSS로 숨겨짐 -->
-              <button type="button" class="btn-mini btn-mini--edit" data-edit-inquiry>수정</button>
-              <button type="button" class="btn-mini btn-mini--delete">삭제</button>
-            </span>
-          </li>
+                <div class="edit-modal__field">
+                  <label class="edit-modal__label">제목 <span class="req">*</span></label>
+                  <input type="text" name="title" value="<?= $inquire->title ?>" id="inquiryTitle" required class="edit-modal__input" placeholder="제목을 입력하세요">
+                </div>
+
+                <div class="edit-modal__field">
+                  <label class="edit-modal__label">내용 <span class="req">*</span></label>
+                  <textarea id="inquiryContent" name="content" class="edit-modal__textarea" placeholder="내용을 입력하세요"  required><?= $inquire->content ?></textarea>
+                </div>
+
+                <div class="edit-modal__field">
+                  <img src="<?= $inquire->img ?>">
+                  <label class="edit-modal__label">이미지</label>
+                  <input type="file" id="inquiryImage" name="file" class="edit-modal__file" accept="image/*">
+                </div>
+
+                <div class="edit-modal__actions">
+                  <button type="button" class="btn-ghost" data-close-modal onclick="document.querySelector('#inquiryEditModal<?= $inquire->idx ?>').classList.remove('edit-modal--show')">취소</button>
+                  <button name="idx" value="<?= $inquire->idx ?>" class="btn-primary" id="submitInquiryEdit">수정</button>
+                </div>
+              </form>
+            </div>
+          <?php } ?>
 
         </ul>
       </div>
@@ -210,51 +231,6 @@ $debates = db::fetchAll("select * from debates where user_idx = '$user->idx' ord
 
 </main>
 
-<!-- =========================================================
-       게시글 수정 모달
-       - 제목, 내용, 카테고리, 사진, 첨부파일 + 수정 버튼
-       - 열릴 때 기존 값 세팅 (JS)
-       ========================================================= -->
-
-
-<!-- =========================================================
-       문의 사항 수정 모달
-       - 제목, 내용, 이미지 + 수정 버튼
-       ========================================================= -->
-<div class="edit-modal" id="inquiryEditModal">
-  <div class="edit-modal__panel">
-    <div class="edit-modal__head">
-      <h3 class="edit-modal__title">문의 사항 수정</h3>
-      <button type="button" class="edit-modal__close" data-close-modal>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </button>
-    </div>
-
-    <div class="edit-modal__field">
-      <label class="edit-modal__label">제목 <span class="req">*</span></label>
-      <input type="text" id="inquiryTitle" class="edit-modal__input" placeholder="제목을 입력하세요">
-    </div>
-
-    <div class="edit-modal__field">
-      <label class="edit-modal__label">내용 <span class="req">*</span></label>
-      <textarea id="inquiryContent" class="edit-modal__textarea" placeholder="내용을 입력하세요"></textarea>
-    </div>
-
-    <div class="edit-modal__field">
-      <label class="edit-modal__label">이미지</label>
-      <input type="file" id="inquiryImage" class="edit-modal__file" accept="image/*">
-    </div>
-
-    <div class="edit-modal__actions">
-      <button type="button" class="btn-ghost" data-close-modal>취소</button>
-      <button type="button" class="btn-primary" id="submitInquiryEdit">수정</button>
-    </div>
-  </div>
-</div>
 
 <script src="/js/lib.js"></script>
 <script>

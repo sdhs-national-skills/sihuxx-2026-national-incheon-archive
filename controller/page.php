@@ -242,6 +242,18 @@ post("/addInquire", function () {
         move("/inquire", "문의사항 등록 성공");
     }
 });
+post("/editInquire", function () {
+    extract($_POST);
+    $file = $_FILES["file"];
+    $path = "/asset/inquires/" . $file["name"];
+    if (isset($file["tmp_name"]) && move_uploaded_file($file["tmp_name"], ".$path")) {
+        db::exec("update inquires set title = '$title', content = '$content', img = '$path' where idx = '$idx'");
+        move("/mypage", "문의사항 수정 성공");
+    } else {
+        db::exec("update inquires set title = '$title', content = '$content' where idx = '$idx'");
+        move("/mypage", "문의사항 수정 성공");
+    }
+});
 post("/addAnswer", function () {
     extract($_POST);
     db::exec("update inquires set answer = '$answer' where idx = '$idx'");
